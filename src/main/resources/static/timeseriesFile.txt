@@ -1,0 +1,66 @@
+[
+    {
+        "_time": "2017-07-16T01:41:17.757Z",
+        "Pressure_In": "1.0",
+        "Pressure_Out": "2.94038",
+        "Motor_Current": "50.0",
+        "Stuffing_Box_Temp": "25.0",
+        "Passage": "240.229"
+    },
+    {
+        "_time": "2017-07-16T01:41:18.758Z",
+        "Pressure_In": "1.0",
+        "Pressure_Out": "2.99325",
+        "Motor_Current": "50.0",
+        "Stuffing_Box_Temp": "25.0",
+        "Passage": "246.935"
+    },
+    {
+        "_time": "2017-07-16T01:41:19.758Z",
+        "Pressure_In": "1.0",
+        "Pressure_Out": "2.97902",
+        "Motor_Current": "49.0",
+        "Stuffing_Box_Temp": "25.0",
+        "Passage": "247.445"
+    },
+    {
+        "_time": "2017-07-16T01:41:20.756Z",
+        "Pressure_In": "1.0",
+        "Pressure_Out": "3.02485",
+        "Motor_Current": "49.0",
+        "Stuffing_Box_Temp": "25.0",
+        "Passage": "243.599"
+    },
+    {
+        "_time": "2017-07-16T01:41:21.757Z",
+        "Pressure_In": "1.0",
+        "Pressure_Out": "2.97087",
+        "Motor_Current": "50.0",
+        "Stuffing_Box_Temp": "25.0",
+        "Passage": "247.728"
+    },
+    {
+        "_time": "2017-07-16T01:41:22.760Z",
+        "Pressure_In": "1.0",
+        "Pressure_Out": "2.99119",
+        "Motor_Current": "50.0",
+        "Stuffing_Box_Temp": "25.0",
+        "Passage": "245.993"
+    },
+    {
+        "_time": "2017-07-16T01:41:23.755Z",
+        "Pressure_In": "1.0",
+        "Pressure_Out": "3.00656",
+        "Motor_Current": "50.0",
+        "Stuffing_Box_Temp": "25.0",
+        "Passage": "249.991"
+    },
+    {
+        "_time": "2017-07-16T01:41:24.757Z",
+        "Pressure_In": "1.0",
+        "Pressure_Out": "3.01077",
+        "Motor_Current": "49.0",
+        "Stuffing_Box_Temp": "25.0",
+        "Passage": "246.854"
+    }
+]

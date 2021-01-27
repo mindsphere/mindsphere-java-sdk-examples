@@ -1,0 +1,24 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>List of APIs</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}" />
+</head>
+<body>
+	<h1>List of APIs</h1>
+	<a href="http://localhost:8080/assets/createAsset">Create Asset</a>
+	<a href="http://localhost:8080/assets/getAsset">Get Asset</a>
+	<a href="http://localhost:8080/assets/deleteAsset">Delete Asset</a>
+	<a href="http://localhost:8080/eventAnalytics/selectedEvents">Selected Events</a>
+	<a href="http://localhost:8080/eventAnalytics/countEvents">Count Events</a>
+	<a href="http://localhost:8080/eventAnalytics/removeDuplicateEvents">Remove Duplicate Events</a>
+	<a href="http://localhost:8080/eventAnalytics/matchEventPatterns">Match Event Patterns</a>
+	<a href="http://localhost:8080/files/createFile/{entityId}">Create File</a>
+	<a href="http://localhost:8080/files/deleteFile/{entityId}/{filepath}">Delete File</a>
+	<a href="http://localhost:8080/timeSeries/create/{entityId}/{propertySetName}">Create Time Series Data</a>
+	<a href="http://localhost:8080/timeSeries/delete/{entityId}/{propertySetName}">Delete Time Series Data</a>
+
+</body>
+</html>
