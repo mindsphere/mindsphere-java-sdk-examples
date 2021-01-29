@@ -29,7 +29,7 @@ The following steps describe the way to set up a sample project to test . You ca
 git clone https://github.com/mindsphere/mindsphere-java-sdk-examples.git
 ```
 ```
-cd mindsphere-Java-sdk-examples
+cd mindsphere-java-sdk-examples
 ```
 ##### Adding MindSphere SDK for Java Dependency¶
 Copy the jar files into a folder named `repo` in the root of your project, e.g. repo.
