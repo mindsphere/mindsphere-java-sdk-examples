@@ -100,7 +100,6 @@ public class AgentManagementControllerTT {
 		DataSource ds1 = new DataSource();
 		ds1.setDescription("IOT DEVICE 2 installed on BGLR.");
 		ds1.setName("IOT DEVICE 2");
-		//ds1.setCustomData("Proxy", "192.168.0.111:8765");
 		ds1.setDataPoints(dpList);
 		List<DataSource> dsList = new ArrayList<DataSource>();
 		dsList.add(ds1);
