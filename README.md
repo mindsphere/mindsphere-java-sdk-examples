@@ -15,7 +15,7 @@ The full documentation can be found at [https://developer.mindsphere.io/resource
 |--------------|--------------|
 | HOST_ENVIRONMENT | Store the region in environment variable named `HOST_ENVIRONMENT`. If not specified, HOST_ENVIRONMENT defaults to `eu1` in region Europe 1 SDK and to `cn1` in region China 1 SDK.
 | MDSP_USER_TENANT | Store the user tenant name in environment variable named `MDSP_USER_TENANT` |.
-| MDSP_OS_VM_APP_VERSIO| Store App Version in environment variable named `MDSP_OS_VM_APP_VERSION`. | 
+| MDSP_OS_VM_APP_VERSION | Store App Version in environment variable named `MDSP_OS_VM_APP_VERSION`. | 
 | MINDSPHERE_CLIENT_ID | Store the mindsphere client id in environment variable named `MINDSPHERE_CLIENT_ID`. |
 | MINDSPHERE_CLIENT_SECRET | Store the mindsphere client secret in environment variable named `MINDSPHERE_CLIENT_SECRET`. |
 | MINDSPHERE_SUB_TENANT | Store the mindsphere subtenant name in environment variable named `MINDSPHERE_SUB_TENANT`. |
