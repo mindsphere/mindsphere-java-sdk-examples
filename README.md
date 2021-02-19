@@ -57,6 +57,14 @@ Add the modules into the build.gradle file.
 Login to your tenant on this sign in page for mindsphere.
 ![Login Page](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/LoginPage.PNG)
 
+##### Mindsphere Dashboard #####
+After successful login mindsphere dashboard will appear.
+![Mindsphere Dashboard](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/MindsphereDashboard.PNG)
+
+##### Open Developer Cockpit #####
+Open Developer Cockpit Application in the Dashboard
+![Developer Cockpit](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/DeveloperCockpit.PNG)
+
 ### Step 4: Create a subtenant, an aspect type and asset types
 
 ##### Subtenant
