@@ -52,8 +52,11 @@ Add the modules into the build.gradle file.
 5. Get the app url by using the cmd `cf apps` and store it for use in further steps
 
 ### Step 3: Login to Mindsphere Application
-Login to your Tenant in Mindsphere Application
 > Your tenant application url will be in the format : https://[tenantName].[region].mindsphere.io
+##### Login using your tenant Credentials #####
+Login to your tenant on this sign in page for mindsphere.
+![alt text](https://github.com/mindsphere/mindsphere-java-sdk-examples/images/LoginPage.PNG)
+
 
 ### Step 4: Create a subtenant, an aspect type and asset types
 
