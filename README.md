@@ -105,7 +105,7 @@ c) Save it.
 
 3. **Creating Assets**
 
-a)  Search for the created `Type` and add it to the `Asset`.
+a) Search for the created `Type` and add it to the `Asset`.
 
 b) Save it.
 
