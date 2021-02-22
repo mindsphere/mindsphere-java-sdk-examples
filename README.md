@@ -64,6 +64,7 @@ After successful login mindsphere dashboard will appear.
 
 ##### Open Developer Cockpit #####
 Open Developer Cockpit Application in the Dashboard
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/DeveloperCockpit.PNG" height="100">
 ![Developer Cockpit](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/DeveloperCockpit.PNG)
 
 
