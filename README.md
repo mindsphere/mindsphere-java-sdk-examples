@@ -55,15 +55,16 @@ Add the modules into the build.gradle file.
 > Your tenant application url will be in the format : https://[tenantName].[region].mindsphere.io
 ##### Login using your tenant Credentials #####
 Login to your tenant on this sign in page for mindsphere.
-![Login Page](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/LoginPage.PNG | width=100)
+![Login Page](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/LoginPage.PNG)
 
 ##### Mindsphere Dashboard #####
 After successful login mindsphere dashboard will appear.
-![Mindsphere Dashboard](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/MindsphereDashboard.PNG | width=100)
+![Mindsphere Dashboard](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/MindsphereDashboard.PNG)
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/MindsphereDashboard.PNG" height="100">
 
 ##### Open Developer Cockpit #####
 Open Developer Cockpit Application in the Dashboard
-![Developer Cockpit](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/DeveloperCockpit.PNG | width=100)
+![Developer Cockpit](https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/DeveloperCockpit.PNG)
 
 
 
