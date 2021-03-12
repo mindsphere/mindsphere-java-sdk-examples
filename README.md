@@ -48,7 +48,7 @@ Add the modules into the build.gradle file.
 1. Build your application for deploying on cloud foundry. using `gradlew build` command
 2. Login into cf using this cmd  : `cf login -a [cloudfoundry_login_url] -sso - AWS INT`
 <p>
-<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/CFLoginCapture.PNG" width="200">
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/CFLoginCapture.PNG" width="1000">
 </p>
 3. Select the `org` and `create space` based on the appname you've created with version and target it
 4. Once it is targeted, push the app into cf using `cf push` cmd
