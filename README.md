@@ -50,6 +50,7 @@ Add the modules into the build.gradle file.
 <p>
 <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/CFLoginCapture.PNG" width="1000">
 </p>
+
 3. Select the `org` and `create space` based on the appname you've created with version and target it
 4. Once it is targeted, push the app into cf using `cf push` cmd
 5. Get the app url by using the cmd `cf apps` and store it for use in further steps
