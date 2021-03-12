@@ -75,6 +75,12 @@ Open Developer Cockpit Application in the Dashboard
 <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/DeveloperCockpit.PNG" width="200">
 </p>
 
+##### Add New Application #####
+On the Developer Cockpit Dashboard Add new Application
+<p>
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplication.PNG" width="200">
+</p>
+
 
 ### Step 4: Create a subtenant, an aspect type and asset types
 
