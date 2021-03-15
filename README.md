@@ -78,8 +78,20 @@ Open Developer Cockpit Application in the Dashboard
 ##### Add New Application #####
 On the Developer Cockpit Dashboard Add new Application
 <p>
-<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplication.PNG" width="200">
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplication.PNG" width="1000">
 </p>
+<p>
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplicationForm.PNG" width="1000">
+</p>
+
+On the New Application Form follow the following steps as marked on the image:
+1. Select App Type [ `Standard`, `Fleet Manager Plugin`, `Mobile` or `API`].
+2. Select App Infrastructure Type [`Mindsphere Cloud Foundry` or `Self Hosted`].
+3. Enter App Name.
+4. Enter version of Application. [`1.0.0`, etc]
+5. Add Description.
+6. Enter app component name
+7. Enter componenet url which is the url obtained from cloud foundry after pushing app to cf.
 
 
 ### Step 4: Create a subtenant, an aspect type and asset types
