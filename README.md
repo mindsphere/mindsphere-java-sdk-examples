@@ -134,3 +134,9 @@ On the New Application Form follow the following steps as marked on the image:
 5. Add Description.
 6. Enter app component name
 7. Enter componenet url which is the url obtained from cloud foundry after pushing app to cf.
+
+Lastly Save It.
+
+##### Add Roles and Scopes #####
+
+Add Roles and Scopes to identify user and admin roles and scopes for users.
