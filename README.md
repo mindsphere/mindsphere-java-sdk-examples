@@ -80,7 +80,7 @@ On the Developer Cockpit Dashboard Add new Application
 
 ###### Add New Application ######
 <p>
-<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplication.PNG" width="1000">
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplication.PNG" width="800">
 </p>
 
 ###### Provide description, name and url for new application ######
