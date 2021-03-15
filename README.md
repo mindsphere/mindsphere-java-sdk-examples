@@ -55,7 +55,7 @@ Add the modules into the build.gradle file.
 4. Once it is targeted, push the app into cf using `cf push` cmd
 5. Get the app url by using the cmd `cf apps` and store it for use in further steps
 
-### Step 3: Mindsphere App
+### Step 3: Login to Mindsphere
 > Your tenant application url will be in the format : https://[tenantName].[region].mindsphere.io
 ##### Login using your tenant Credentials #####
 Login to your tenant on this sign in page for mindsphere.
