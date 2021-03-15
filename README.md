@@ -55,7 +55,7 @@ Add the modules into the build.gradle file.
 4. Once it is targeted, push the app into cf using `cf push` cmd
 5. Get the app url by using the cmd `cf apps` and store it for use in further steps
 
-### Step 3: Login to Mindsphere Application
+### Step 3: Mindsphere App
 > Your tenant application url will be in the format : https://[tenantName].[region].mindsphere.io
 ##### Login using your tenant Credentials #####
 Login to your tenant on this sign in page for mindsphere.
@@ -69,34 +69,7 @@ After successful login mindsphere dashboard will appear.
 <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/MindsphereDashboard.PNG" width="600">
 </p>
 
-##### Open Developer Cockpit #####
-Open Developer Cockpit Application in the Dashboard
-<p>
-<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/DeveloperCockpit.PNG" width="200">
-</p>
-
-##### Add New Application #####
-On the Developer Cockpit Dashboard Add new Application
-<p>
-<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplication.PNG" width="800">
-</p>
-
-##### Enter Application Name, Description, App Type, and App Url #####
-<p>
-<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplicationForm.PNG" width="1000">
-</p>
-
-On the New Application Form follow the following steps as marked on the image:
-1. Select App Type [ `Standard`, `Fleet Manager Plugin`, `Mobile` or `API`].
-2. Select App Infrastructure Type [`Mindsphere Cloud Foundry` or `Self Hosted`].
-3. Enter App Name.
-4. Enter version of Application. [`1.0.0`, etc]
-5. Add Description.
-6. Enter app component name
-7. Enter componenet url which is the url obtained from cloud foundry after pushing app to cf.
-
-
-### Step 4: Create a subtenant, an aspect type and asset types
+### Step 4: Create a subtenant, an aspect type and asset types ###
 
 ##### Subtenant
 
@@ -133,10 +106,31 @@ a) Search for the created `Type` and add it to the `Asset`.
 
 b) Save it.
 
-### Step 5 : Creating SDK App
-1. Login to your tenant
-2. Open `Developer Cockpit`.
-3. `Create new application` -> `Standard` -> `CloudFoundry` -> `AppName`, `Version` and `Description`
-4. Add component url with routi as app name
-5. Add Roles and Scopes
-6. Save it and register after adding roles and scopes
+
+### Step 5: Register App on Mindsphere ###
+
+##### Open Developer Cockpit #####
+Open Developer Cockpit Application in the Dashboard
+<p>
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/DeveloperCockpit.PNG" width="200">
+</p>
+
+##### Add New Application #####
+On the Developer Cockpit Dashboard Add new Application
+<p>
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplication.PNG" width="800">
+</p>
+
+##### Enter Application Name, Description, App Type, and App Url #####
+<p>
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplicationForm.PNG" width="1000">
+</p>
+
+On the New Application Form follow the following steps as marked on the image:
+1. Select App Type [ `Standard`, `Fleet Manager Plugin`, `Mobile` or `API`].
+2. Select App Infrastructure Type [`Mindsphere Cloud Foundry` or `Self Hosted`].
+3. Enter App Name.
+4. Enter version of Application. [`1.0.0`, etc]
+5. Add Description.
+6. Enter app component name
+7. Enter componenet url which is the url obtained from cloud foundry after pushing app to cf.
