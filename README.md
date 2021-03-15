@@ -78,7 +78,7 @@ Open Developer Cockpit Application in the Dashboard
 ##### Add New Application #####
 On the Developer Cockpit Dashboard Add new Application
 
-###### Add New Application ######
+###### New Application ######
 <p>
 <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/NewApplication.PNG" width="800">
 </p>
