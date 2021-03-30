@@ -283,7 +283,7 @@ java -jar build/libs/<generated-jar-file-name>.jar
 <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/AccessAP.PNG" width="400">
 </p>
 
-3. You can toggle token type by '<your-domain-url-here>/tokenType/toggle'.
+3. You can toggle token type by 'your-domain-url-here/tokenType/toggle'.
 
 ### Login to CF
 - To login to cloudfoundry user can opt for either of two ways.
