@@ -87,7 +87,7 @@ git clone https://github.com/mindsphere/mindsphere-java-sdk-examples.git
 ```
 gradlew clean build
 ```
-- .jar file for application will be generated at build/libs/<jar-file-name>.jar
+- .jar file for application will be generated at build/libs/jar-file-name.jar
 
 
 #### 4. Push the App to CloudFoundry.
@@ -112,7 +112,7 @@ gradlew clean build
 - Once application is successfully deployed check for app status using command `cf app routi`.
 - Note down app URL displayed on screen.
 <p>
-    <img src="https://github.com/mindsphere/mindsphere-python-sdk-examples/blob/master/images/cfappurl.PNG" width="400">
+    <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/cfappurl.PNG" width="400">
 </p>
 
 ### 3A - 2 : Deploy the application as Self Hosted Application.
@@ -148,7 +148,7 @@ gradlew clean build
 3. Create an application scope, e.g. <provided-application-name>.subtenant.
 4. Add the following Core roles to enable access to the respective APIs. For this project - `mindsphere-java-sdk-examples`, you will need following API roles. If required roles are not added then endpoints specific to those services will not work as expected.
 <p>
-<img src="https://github.com/mindsphere/mindsphere-python-sdk-examples/blob/master/images/apiroles.PNG" width="400">
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/apiroles.PNG" width="400">
 </p>
 
 #### Register the Application
@@ -164,7 +164,7 @@ gradlew clean build
     </p>
 3. Click on **Issue access** button.
     <p>
-    <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/issueaccess.png" width="400">
+    <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/issueaccess.PNG" width="400">
     </p>
 4. Select **Read And Write** .
     <p>
