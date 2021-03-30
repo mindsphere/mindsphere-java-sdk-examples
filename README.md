@@ -237,6 +237,8 @@ Now concerned developer should be able to access the application via launchpad.
 <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/eventeg.PNG" width="400">
 </p>
 
+6. You can toggle token type by 'your-domain-url-here/tokenType/toggle'.
+
 ### 4B - Set up Java Sample Project For Local Machine
 The following steps describe the way to set up a sample project to test. 
 ##### 1. Clone this repository.
@@ -278,8 +280,10 @@ java -jar build/libs/<generated-jar-file-name>.jar
 1. Navigate to 'http://localhost:8080' (You can use any browswer of your choice).
 2. Domain URL in this case will be 'http://localhost:8080'.
 <p>
-<img src="https://github.com/mindsphere/mindsphere-python-sdk-examples/blob/master/images/AccessAP.PNG" width="400">
+<img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/AccessAP.PNG" width="400">
 </p>
+
+3. You can toggle token type by '<your-domain-url-here>/tokenType/toggle'.
 
 ### Login to CF
 - To login to cloudfoundry user can opt for either of two ways.
@@ -292,7 +296,7 @@ java -jar build/libs/<generated-jar-file-name>.jar
 #### Using Service Credentials on MindSphere.
 - Navigate to MindSphere Launchpad -> Settings -> Service Credentials.
 <p>
-<img src="https://github.com/mindsphere/mindsphere-node-sdk-examples/blob/master/images/sc.png" width="400">
+<img src="https://github.com/mindsphere/mindsphere-python-sdk-examples/blob/master/images/sc.png" width="400">
 </p>
 
 - Create service credentials by providing details asked on page.
