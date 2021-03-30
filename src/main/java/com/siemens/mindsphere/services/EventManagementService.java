@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.gson.GsonBuilder;
 import com.siemens.mindsphere.helpers.EventManagementHelper;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.sdk.eventmanagement.apiclient.EventTypesClient;
@@ -32,6 +33,8 @@ public class EventManagementService extends MindsphereService {
     public Object createtEventType(String token) throws MindsphereException, IOException {
         Object response = null;
         EventTypesClient eventTypeClient = eventsHelper.getEventsTypeClient(getToken(), getHostName());
+        
+        //System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(eventTypeClient.getEventTypes()));
         String eventTypeName = "IntegTestCustomEvent" + new Random().nextInt(10000 - 10) + 10;
         EventType eventType = new EventType();
         eventType.setName(eventTypeName);

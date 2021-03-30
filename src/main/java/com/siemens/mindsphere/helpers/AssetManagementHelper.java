@@ -38,7 +38,7 @@ import com.siemens.mindsphere.sdk.assetmanagement.model.SaveAssetLocationRequest
 import com.siemens.mindsphere.sdk.assetmanagement.model.SaveAssetTypeRequest;
 import com.siemens.mindsphere.sdk.assetmanagement.model.UploadFileRequest;
 import com.siemens.mindsphere.sdk.assetmanagement.model.VariableDefinition;
-import com.siemens.mindsphere.sdk.timeseries.apiclient.TimeSeriesClient;
+import com.siemens.mindsphere.sdk.timeseries.apiclient.TimeSeriesOperationsClient;
 
 public class AssetManagementHelper extends ControllerHelper {
 	String assetId;
@@ -78,8 +78,8 @@ public class AssetManagementHelper extends ControllerHelper {
     }
 
 
-	public TimeSeriesClient getTimeseriesClient(String token, String host) {
-		TimeSeriesClient timeseriesClient = TimeSeriesClient.builder().restClientConfig(getConfig(host))
+	public TimeSeriesOperationsClient getTimeseriesClient(String token, String host) {
+		TimeSeriesOperationsClient timeseriesClient = TimeSeriesOperationsClient.builder().restClientConfig(getConfig(host))
 				.mindsphereCredentials(getCreds(token)).build();
 
 		return timeseriesClient;
@@ -162,11 +162,11 @@ public class AssetManagementHelper extends ControllerHelper {
         return assetTypeDTO;
     }
 
-	public Asset createAsset(String tenantName, AssetTypeResource resource) {
+	public Asset createAsset(String tenantName, AssetTypeResource resource,String parentId ) {
 
 		Asset assetDTO = new Asset();
 		assetDTO.setName("BMW");
-		assetDTO.setParentId("0ba09fbe8bad486893125b1156aa2eaa");
+		assetDTO.setParentId(parentId);
 		assetDTO.setTypeId(resource.getId());
 		return assetDTO;
 
@@ -284,8 +284,8 @@ public class AssetManagementHelper extends ControllerHelper {
 
     public ListAssetsRequest listAssetRequestModel(int page, int size) {
         ListAssetsRequest listAssetsRequest = new ListAssetsRequest();
-        listAssetsRequest.setPage(1);
-        listAssetsRequest.setSize(10);
+        listAssetsRequest.setPage(page);
+        listAssetsRequest.setSize(size);
         return listAssetsRequest;
     }
 }

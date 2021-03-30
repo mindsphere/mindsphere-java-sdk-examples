@@ -20,20 +20,54 @@ public class BillboardService extends MindsphereService {
     public List<String> getAPIs() {
         List<String> listOfAPIs = new ArrayList<String>();
         listOfAPIs.add("Asset Management APIs ");
-        listOfAPIs.add(" http://localhost:8080/assets/createAsset ");
-        listOfAPIs.add(" http://localhost:8080/assets/getAssets ");
-        listOfAPIs.add(" http://localhost:8080/assets/deleteAsset ");
+        listOfAPIs.add(" your-domain-url-here/assets/aspects - Creates an aspect (RequestParam : tenantName)");
+        listOfAPIs.add(" your-domain-url-here/assets/assettype/{tenantName} - Creates as Asset Type. (RequestParams : aspectname, aspectid - from step above.)");
+        listOfAPIs.add(" your-domain-url-here/assets/assets/{assetTypeId} - Creates an asset with provided asset type ID. (Request param : parentid).");
+        listOfAPIs.add(" your-domain-url-here/assets/createAsset - creates an Asset (RequestParam : tenantName) ");
+        listOfAPIs.add(" your-domain-url-here/assets/assets - list all assets. ");
+        listOfAPIs.add(" your-domain-url-here/assets/assetsget/{asset_id} - Get an asset by ID. ");
+        listOfAPIs.add(" your-domain-url-here/assets/assetsdelete/{asset_id}/{etag - Delete an asset by ID. ");listOfAPIs.add(" your-domain-url-here/deleteAsset - Delete file assignment, timeseriesdata and asset itself. (Request param - ID, AssetKey, AssetTypeKey, from, to). ");
+        listOfAPIs.add(" your-domain-url-here/assets/assetfiles - Create file. ");
+        listOfAPIs.add(" your-domain-url-here/assets/assetfiles/{asset_id} - Assign file to an asset. (Request parameters - fileid, key, ifmatch). ");
+        listOfAPIs.add("=========================================================");
+
+
         listOfAPIs.add(" Event Analytics APIs ");
-        listOfAPIs.add(" http://localhost:8080/eventAnalytics/selectedEvents ");
-        listOfAPIs.add(" http://localhost:8080/eventAnalytics/countEvents ");
-        listOfAPIs.add(" http://localhost:8080/eventAnalytics/removeDuplicateEvents ");
-        listOfAPIs.add(" http://localhost:8080/eventAnalytics/matchEventPatterns ");
+        listOfAPIs.add(" your-domain-url-here/eventAnalytics/topevents ");
+        listOfAPIs.add(" your-domain-url-here/eventAnalytics/countEvents ");
+        listOfAPIs.add(" your-domain-url-here/eventAnalytics/removeDuplicateEvents ");
+        listOfAPIs.add(" your-domain-url-here/eventAnalytics/matchEventPatterns ");
+
+
+        listOfAPIs.add("=========================================================");
         listOfAPIs.add(" File Services APIs ");
-        listOfAPIs.add(" http://localhost:8080/files/createFile/{entityId} ");
-        listOfAPIs.add(" http://localhost:8080/files/deleteFile/{entityId}/{filepath} ");
+        listOfAPIs.add(" your-domain-url-here/files/fileservicecreate/{entityId} ");
+        listOfAPIs.add(" your-domain-url-here/files/deleteFile/{entityId}/{filepath} ");
+        listOfAPIs.add(" your-domain-url-here/files/fileservicegetfile/{entityId}/{file_path} ");
+        listOfAPIs.add(" your-domain-url-here/files/fileservicesearch/{entityId} ");
+        listOfAPIs.add(" your-domain-url-here/files/fileservicecreatemultipartfile/{entityId}/{file_path}");
+        listOfAPIs.add("=========================================================");
         listOfAPIs.add(" Time Series APIs ");
-        listOfAPIs.add(" http://localhost:8080/timeSeries/create/{entityId}/{propertySetName} ");
-        listOfAPIs.add(" http://localhost:8080/timeSeries/get/{entityId}/{propertySetName} ");
+        listOfAPIs.add(" your-domain-url-here/iottimeseries/puttimeseriesdata/{entityId}/{propertySetName}");
+        listOfAPIs.add(" your-domain-url-here/iottimeseries/gettimeseries/{entityId}/{propertySetName} ");
+        listOfAPIs.add(" your-domain-url-here/iottimeseries/gettimeserieswithfromto/{entityId}/{propertySetName} ");
+        listOfAPIs.add(" your-domain-url-here/iottimeseries/deletetimeserieswithfromto/{entityId}/{propertySetName} ");
+        listOfAPIs.add("=========================================================");
+        listOfAPIs.add(" TS Aggregates APIs ");
+        listOfAPIs.add(" your-domain-url-here/iottsaggregates/gettimeseries/{entityId}/{propertySetName} ");
+        listOfAPIs.add(" your-domain-url-here/iottsaggregates/gettimeserieswithfromandto/{entityId}/{propertySetName} (Request Parameters - from, to)");
+        listOfAPIs.add("=========================================================");
+        listOfAPIs.add(" Event Management APIs ");
+        listOfAPIs.add(" your-domain-url-here/eventMgmt/createtEventType. - Creates an event. ");
+        listOfAPIs.add(" your-domain-url-here/eventMgmt/createCustomEvent/{typeId}/{entityId} - Creates custom event with provided typeId and AssetId. ");
+
+        listOfAPIs.add("=========================================================");
+        listOfAPIs.add(" IoT Bulk APIs ");
+        listOfAPIs.add(" your-domain-url-here/iotbulkdata/importjobs ");
+        listOfAPIs.add(" your-domain-url-here/iotbulkdata/importjobs/{id}  ");
+        listOfAPIs.add(" your-domain-url-here/iotbulkdata/gettimeseries/{entityId}/{propertySetName}  ");
+
+
         return listOfAPIs;
     }
 

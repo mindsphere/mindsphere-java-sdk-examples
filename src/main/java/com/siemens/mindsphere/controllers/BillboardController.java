@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,9 +56,16 @@ public class BillboardController {
         return null;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/")
-    public List<String> index(Model map) {
-        return billboardService.getAPIs();
+    @RequestMapping(method = RequestMethod.GET, value = "/", produces={"text/plain"})
+    public ResponseEntity<Object> index(Model map) {
+        List<String> apis = billboardService.getAPIs();
+        String finalResponse = "";
+        for (String string : apis) {
+            finalResponse += string + "\n";
+        }
+       
+        
+        return new ResponseEntity<Object>(finalResponse, HttpStatus.OK);
     }
 
 }

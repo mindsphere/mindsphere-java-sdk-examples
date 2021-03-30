@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
+import com.google.gson.GsonBuilder;
 import com.siemens.mindsphere.helpers.AssetManagementHelper;
 import com.siemens.mindsphere.sdk.assetmanagement.apiclient.AspecttypeClient;
 import com.siemens.mindsphere.sdk.assetmanagement.apiclient.AssetsClient;
@@ -34,15 +35,18 @@ import com.siemens.mindsphere.sdk.assetmanagement.model.AssetTypeResourceAspects
 import com.siemens.mindsphere.sdk.assetmanagement.model.DeleteAssetRequest;
 import com.siemens.mindsphere.sdk.assetmanagement.model.FileMetadataResource;
 import com.siemens.mindsphere.sdk.assetmanagement.model.GetAssetRequest;
+import com.siemens.mindsphere.sdk.assetmanagement.model.GetRootAssetRequest;
 import com.siemens.mindsphere.sdk.assetmanagement.model.KeyedFileAssignment;
 import com.siemens.mindsphere.sdk.assetmanagement.model.ListAssetsRequest;
+import com.siemens.mindsphere.sdk.assetmanagement.model.RootAssetResource;
 import com.siemens.mindsphere.sdk.assetmanagement.model.SaveAspectTypeRequest;
 import com.siemens.mindsphere.sdk.assetmanagement.model.SaveAssetFileAssignmentRequest;
 import com.siemens.mindsphere.sdk.assetmanagement.model.SaveAssetLocationRequest;
 import com.siemens.mindsphere.sdk.assetmanagement.model.SaveAssetTypeRequest;
 import com.siemens.mindsphere.sdk.assetmanagement.model.UploadFileRequest;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
-import com.siemens.mindsphere.sdk.timeseries.apiclient.TimeSeriesClient;
+import com.siemens.mindsphere.sdk.timeseries.apiclient.TimeSeriesOperationsClient;
+import com.siemens.mindsphere.sdk.timeseries.model.DeleteUpdatedTimeseriesRequest;
 
 @Service
 public class AssetManagementService extends MindsphereService {
@@ -73,10 +77,12 @@ public class AssetManagementService extends MindsphereService {
 		File currFile = stream2file(in);
 
 		FilesClient assetFileClient = assetManagementHelper.getFileClient(getToken(), getHostName());
-		assetFileClient.uploadFile(currFile, fileName, null, "test desc");
+		FileMetadataResource  metadata = assetFileClient.uploadFile(currFile, fileName, null, "test desc");
 
 		AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
-		Asset asset = assetManagementHelper.createAsset(tenantName, resource);
+		RootAssetResource rootAsset = assetClient.getRootAsset(new GetRootAssetRequest());
+		Asset asset = assetManagementHelper.createAsset(tenantName,resource, rootAsset.getAssetId());
+		//System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(rootAsset));
 		AssetResourceWithHierarchyPath assetObj = null;
 
 		// addAsset API call
@@ -86,7 +92,7 @@ public class AssetManagementService extends MindsphereService {
 		String key = "Demo1";
 		Integer ifMatch = assetObj.getEtag();
 		KeyedFileAssignment assignment = new KeyedFileAssignment();
-		assignment.fileId("876dcbc2381c49dd8026f23f9c608309");
+		assignment.fileId(metadata.getId());
 		assetClient.saveAssetFileAssignment(id, key, ifMatch.toString(), assignment);
 		LOGGER.info("File created with name " + fileName + " and assigned to Asset with ID " + id);
 		return assetObj;
@@ -105,7 +111,7 @@ public class AssetManagementService extends MindsphereService {
 		File currFile = stream2file(in);
 
 		FilesClient assetTypeFileClient = assetManagementHelper.getFileClient(getToken(), getHostName());
-		assetTypeFileClient.uploadFile(currFile, fileName, null, "test description");
+		FileMetadataResource metadata =  assetTypeFileClient.uploadFile(currFile, fileName, null, "test description");
 
 		AssettypeClient assetTypeClient = assetManagementHelper.getAssetTypeClient(getToken(), getHostName());
 		AssetType assetTypeDTO = assetManagementHelper.createAssetType(tenantName, aspect);
@@ -119,7 +125,7 @@ public class AssetManagementService extends MindsphereService {
 		Integer ifMatch = resource.getEtag();
 		KeyedFileAssignment assignment = new KeyedFileAssignment();
 
-		assignment.setFileId("876dcbc2381c49dd8026f23f9c608309");
+		assignment.setFileId(metadata.getId());
 		assetTypeClient.saveAssetTypeFileAssignment(ifMatch.toString(), id, key, assignment);
 
 		LOGGER.info("File created with name " + fileName + " and assigned to Asset Type with ID " + id);
@@ -224,7 +230,7 @@ public class AssetManagementService extends MindsphereService {
 		AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
 		AssettypeClient assetTypeClient = assetManagementHelper.getAssetTypeClient(getToken(), getHostName());
 		AspecttypeClient aspectTypeClient = assetManagementHelper.getAspectTypeClient(getToken(), getHostName());
-		TimeSeriesClient timeseriesClient = assetManagementHelper.getTimeseriesClient(getToken(), getHostName());
+		TimeSeriesOperationsClient timeseriesClient = assetManagementHelper.getTimeseriesClient(getToken(), getHostName());
 
 		Integer ifMatch;
 		AssetResourceWithHierarchyPath assetData = assetClient.getAsset(id, null);
@@ -243,7 +249,14 @@ public class AssetManagementService extends MindsphereService {
 
 		for (AssetTypeResourceAspects aspect : aspectTypes) {
 			// deleteTimeseries API call
-			timeseriesClient.deleteTimeseries(id, aspect.getName(), from, to);
+			DeleteUpdatedTimeseriesRequest deleteUpdatedTimeseriesRequest = new DeleteUpdatedTimeseriesRequest();
+			deleteUpdatedTimeseriesRequest.setEntityId(id);
+			deleteUpdatedTimeseriesRequest.propertySetName(aspect.getName());
+			deleteUpdatedTimeseriesRequest.setFrom(from);
+			deleteUpdatedTimeseriesRequest.setTo(to);
+			timeseriesClient.deleteTimeseries(deleteUpdatedTimeseriesRequest);
+			
+			//timeseriesClient.deleteTimeseries(id, aspect.getName(), from, to);
 			LOGGER.info("Deleted time series data");
 		}
 
@@ -353,7 +366,7 @@ public class AssetManagementService extends MindsphereService {
     public AssetListResource listAssets() throws MindsphereException {
         LOGGER.info("Calling listAssets()");
         AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
-        AssetListResource response = assetClient.listAssets(assetManagementHelper.listAssetRequestModel(1,10));
+        AssetListResource response = assetClient.listAssets(assetManagementHelper.listAssetRequestModel(0,10));
         return response;
     }
 }
