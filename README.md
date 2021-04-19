@@ -71,7 +71,7 @@ git clone https://github.com/mindsphere/mindsphere-java-sdk-examples.git
 - Download Java SDK from [Download](#2---download).
 - Unzip the downloaded file.
 - Navigate to <some path where unzipped folder is located>/mindsphere-java-sdk_2.5.0/com/siemens/mindsphere/
-- Copy .jar files of required dependent service/services in 'repo' folder. 'repo' folder is already created for you in the root directory. (For this project(mindsphere-sdk-java-examples) we will need all the .jar files but you can choose to use only required subset of all avaiable SDKs for your project.)
+- Copy .jar files of required dependent service/services in 'libs' folder. 'libs' folder is already created for you in the root directory. (For this project(mindsphere-sdk-java-examples) we will need all the .jar files but you can choose to use only required subset of all avaiable SDKs for your project.)
 - For convinience, build.gradle is populated with relative path to copied dependencies.
 
 ###### Note 
@@ -250,7 +250,7 @@ git clone https://github.com/mindsphere/mindsphere-java-sdk-examples.git
 - Download Java SDK from [Download](#2---download).
 - Unzip the downloaded file.
 - Navigate to <some path where unzipped folder is located>/mindsphere-java-sdk_2.5.0/com/siemens/mindsphere/
-- Copy .jar files of required dependent service/services in 'repo' folder. 'repo' folder is already created for you in the root directory. (For this project(mindsphere-sdk-java-examples) we will need all the .jar files but you can choose to use only required subset of all avaiable SDKs for your project.)
+- Copy .jar files of required dependent service/services in 'libs' folder. 'libs' folder is already created for you in the root directory. (For this project(mindsphere-sdk-java-examples) we will need all the .jar files but you can choose to use only required subset of all avaiable SDKs for your project.)
 - For convinience, build.gradle is populated with relative path to copied dependencies.
 
 ###### Note 

@@ -35,3 +35,5 @@ bin/
 /.gradle
 *.lock
 .gradle
+bin
+.gradle/
