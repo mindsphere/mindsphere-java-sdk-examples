@@ -104,6 +104,7 @@ gradlew clean build
     <p>
     <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/manifest-java.PNG" width="400">
     </p>
+- For convienience, sample manifest.yml is added in root directory of project. Please note that .jar file of application and manifest.yml exist in same directory as shown at start of 4th section.
 - `path` specifies where to look for application. Here in this case, our app is mindsphere-sdk-v2-demoapp-2.2.2-SNAPSHOT.jar file.
 - Environment variables are listed under `env`. Since sample application demonstrates use of MindSphere SDKs, environemnt variables  are only specific for Token Generation. In case of other application, user can append the list with his/her own environment variables.
 - As mentioned in 1 - Prerequisites, either of Tenant Credentials/ Application Credentials would suffice for getting token.
