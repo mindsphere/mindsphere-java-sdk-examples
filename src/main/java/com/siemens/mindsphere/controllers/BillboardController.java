@@ -19,6 +19,10 @@ import com.siemens.mindsphere.services.MindsphereService;
 
 @RestController
 public class BillboardController {
+	/**
+	 * This controller class is used to handle token related operations : toggle token, get token.
+	 * 
+	 */
 
     @Autowired
     private BillboardService billboardService;
@@ -56,6 +60,11 @@ public class BillboardController {
         return null;
     }
 
+    /** 
+     *
+     * @param map
+     * @return set of available APIs for demo-app.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/", produces={"text/plain"})
     public ResponseEntity<Object> index(Model map) {
         List<String> apis = billboardService.getAPIs();
