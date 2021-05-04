@@ -7,13 +7,13 @@ import java.util.List;
 public class MindsphereService {
 
     public static enum TokenType {
-        TENANT, USER, APP;
+         USER, APP;
     }
 
     private String token;
     private String hostName;
     public static TokenType presentTokenType = TokenType.USER;
-    private static List<TokenType> tokenList = new ArrayList<>(Arrays.asList(TokenType.USER,TokenType.APP,TokenType.TENANT));
+    private static List<TokenType> tokenList = new ArrayList<>(Arrays.asList(TokenType.USER,TokenType.APP));
     
     public static TokenType getNextTokenType() {
         int currentTokenIndex = tokenList.indexOf(MindsphereService.presentTokenType);

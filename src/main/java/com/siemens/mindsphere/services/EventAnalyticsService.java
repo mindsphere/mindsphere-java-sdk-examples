@@ -31,7 +31,10 @@ import com.siemens.mindsphere.sdk.eventanalytics.model.TopEventOutputInner;
 import com.siemens.mindsphere.sdk.eventanalytics.model.TopEventsInputDataModel;
 import com.siemens.mindsphere.sdk.eventanalytics.model.TopEventsRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class EventAnalyticsService extends MindsphereService {
 
     EventAnalyticsHelper eventAnalyticsHelper = new EventAnalyticsHelper();
@@ -39,6 +42,7 @@ public class EventAnalyticsService extends MindsphereService {
     public String findEvents() throws MindsphereException {
         EventOperationsClient eventOperationsClient = eventAnalyticsHelper.getEventAnalyticsClient(getToken(),
                 getHostName());
+        log.info("eventOperationsClient initialized successfully");
         TopEventsInputDataModel data = getTopEventData();
         EventSearchInputDataModel data1 = getEventFilterData();
 
@@ -49,11 +53,14 @@ public class EventAnalyticsService extends MindsphereService {
         // topEvents API call
         topEventsResponse = eventOperationsClient.topEvents(eventAnalyticsHelper.topEvents(data));
         TopEventOutputInner topEventResponse = topEventsResponse.get(0);
+        log.info("topEventsResponse getting successfully"+topEventsResponse);
 
         // filter events API call
         filterEventsResponse = eventOperationsClient.filterEvents(eventAnalyticsHelper.filterEventsObjectModel(data1));
         List<Event> filterEventList = filterEventsResponse.getOutput();
-
+        
+        
+        log.info("filterEventsResponse getting successfully "+filterEventsResponse);
         output = getSelectedOutput(topEventResponse, filterEventList);
         return output;
     }
@@ -62,12 +69,14 @@ public class EventAnalyticsService extends MindsphereService {
         String output = null;
         EventOperationsClient eventOperationsClient = eventAnalyticsHelper.getEventAnalyticsClient(getToken(),
                 getHostName());
+        log.info("eventOperationsClient initialized successfully");
         EventInput data = getCountData();
 
         EventCountOutput countEventsResponse = null;
         // countEvents API call
         countEventsResponse = eventOperationsClient.countEvents(eventAnalyticsHelper.countEventsObjectModel(data));
         List<EventCountOutputItem> eventCountOutputItem = countEventsResponse.getOutput();
+        log.info("countEventsResponse getting successfully "+countEventsResponse);
 
         output = getCountOutput(eventCountOutputItem);
         return output;
@@ -78,11 +87,13 @@ public class EventAnalyticsService extends MindsphereService {
         String output = null;
         EventOperationsClient eventOperationsClient = eventAnalyticsHelper.getEventAnalyticsClient(getToken(),
                 getHostName());
+        log.info("eventOperationsClient initialized successfully");
         EventInput data = getRemoveDuplicateData();
 
         DuplicateEventArrayOutput removeDuplicateResponse = null;
         // removeDuplicateEvents API call
         removeDuplicateResponse = eventOperationsClient.removeDuplicateEvents(eventAnalyticsHelper.removeDuplicatesModel(data));
+        log.info("removeDuplicateResponse getting successfully "+removeDuplicateResponse);
         output = getRemoveDuplicateOutput(removeDuplicateResponse);
         return output;
     }
@@ -91,10 +102,12 @@ public class EventAnalyticsService extends MindsphereService {
         PatternMatchingOutput output = null;
         PatternOperationsClient patternOperationsClient = eventAnalyticsHelper.getPatternOperationsClient(getToken(),
                 getHostName());
+        log.info("patternOperationsClient initialized successfully");
         PatternMatchingInputDataModel data = getPatternData();
         PatternMatchingOutput matchPatternResponse = null;
         // matchPatternsOverEvents API call
         matchPatternResponse = patternOperationsClient.matchPatternsOverEvents(eventAnalyticsHelper.matchPatternsOverEventsRequest(data));
+        log.info("matchPatternResponse getting successfully "+matchPatternResponse);
         output = getmatchPatternOutput(matchPatternResponse);
         return output;
     }

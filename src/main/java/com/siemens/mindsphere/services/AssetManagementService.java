@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
@@ -48,19 +46,22 @@ import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.sdk.timeseries.apiclient.TimeSeriesOperationsClient;
 import com.siemens.mindsphere.sdk.timeseries.model.DeleteUpdatedTimeseriesRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AssetManagementService extends MindsphereService {
 
 	private AssetManagementHelper assetManagementHelper = new AssetManagementHelper();
-	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	
 
 	public String createAssetPackage(String tenantName) throws MindsphereException, IOException {
 
-		LOGGER.info("Calling createAspectType()");
+		log.info("Calling createAspectType()");
 		AspectTypeResource aspect = createAspectType(tenantName);
-		LOGGER.info("Calling createAssetType()");
+		log.info("Calling createAssetType()");
 		AssetTypeResource resource = createAssetType(tenantName, aspect);
-		LOGGER.info("Calling createAsset()");
+		log.info("Calling createAsset()");
 		AssetResourceWithHierarchyPath assetObj = createAsset(tenantName, resource);
 		return getFinalResponse(aspect, resource, assetObj);
 	}
@@ -78,15 +79,20 @@ public class AssetManagementService extends MindsphereService {
 
 		FilesClient assetFileClient = assetManagementHelper.getFileClient(getToken(), getHostName());
 		FileMetadataResource  metadata = assetFileClient.uploadFile(currFile, fileName, null, "test desc");
+		log.info("file uploaded successfully with file name"+fileName);
 
 		AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
+		 log.info("assetClient initialized successfully");
+	
 		RootAssetResource rootAsset = assetClient.getRootAsset(new GetRootAssetRequest());
+		log.info("Getting RootAsset Successfully "+rootAsset);
 		Asset asset = assetManagementHelper.createAsset(tenantName,resource, rootAsset.getAssetId());
 		//System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(rootAsset));
 		AssetResourceWithHierarchyPath assetObj = null;
 
 		// addAsset API call
 		assetObj = assetClient.addAsset(asset);
+		log.info("Asset Created successfully "+assetObj);
 
 		String id = assetObj.getAssetId();
 		String key = "Demo1";
@@ -94,7 +100,7 @@ public class AssetManagementService extends MindsphereService {
 		KeyedFileAssignment assignment = new KeyedFileAssignment();
 		assignment.fileId(metadata.getId());
 		assetClient.saveAssetFileAssignment(id, key, ifMatch.toString(), assignment);
-		LOGGER.info("File created with name " + fileName + " and assigned to Asset with ID " + id);
+		log.info("File created with name " + fileName + " and assigned to Asset with ID " + id);
 		return assetObj;
 	}
 
@@ -111,14 +117,18 @@ public class AssetManagementService extends MindsphereService {
 		File currFile = stream2file(in);
 
 		FilesClient assetTypeFileClient = assetManagementHelper.getFileClient(getToken(), getHostName());
+		log.info("assetTypeFileClient initialized successfully");
 		FileMetadataResource metadata =  assetTypeFileClient.uploadFile(currFile, fileName, null, "test description");
-
+		log.info("file uploaded successfully");
 		AssettypeClient assetTypeClient = assetManagementHelper.getAssetTypeClient(getToken(), getHostName());
+		log.info("assetTypeClient initialized successfully");
 		AssetType assetTypeDTO = assetManagementHelper.createAssetType(tenantName, aspect);
+		
 
 		// saveAssetType API call
 		AssetTypeResource resource = assetTypeClient.saveAssetType(assetManagementHelper.getAssetId(), assetTypeDTO,
 				null);
+		log.info("assetType created successfully "+resource);
 
 		String id = resource.getId();
 		String key = "Demo2";
@@ -128,17 +138,19 @@ public class AssetManagementService extends MindsphereService {
 		assignment.setFileId(metadata.getId());
 		assetTypeClient.saveAssetTypeFileAssignment(ifMatch.toString(), id, key, assignment);
 
-		LOGGER.info("File created with name " + fileName + " and assigned to Asset Type with ID " + id);
+		log.info("File created with name " + fileName + " and assigned to Asset Type with ID " + id);
 
 		return resource;
 	}
 
     private AspectTypeResource createAspectType(String tenantName) throws MindsphereException {
         AspecttypeClient aspectTypeClient = assetManagementHelper.getAspectTypeClient(getToken(), getHostName());
+        log.info("aspectTypeClient initialized successfully");
         AspectType aspectType = assetManagementHelper.createAspectType(tenantName);
 
         // creating Aspect type API call
         AspectTypeResource response = aspectTypeClient.saveAspectType(assetManagementHelper.creatAspectTypeRequestModel(assetManagementHelper.getAspectId(), aspectType));
+        log.info("aspectTypeClient created successfully "+ response);
         return response;
     }
 
@@ -152,11 +164,11 @@ public class AssetManagementService extends MindsphereService {
 	}
 
 	public String getAssetPackage() throws MindsphereException {
-		LOGGER.info("Calling getAspectType()");
+		log.info("Calling getAspectType()");
 		List<String> aspectList = getAspectType();
-		LOGGER.info("Calling getAssetType()");
+		log.info("Calling getAssetType()");
 		List<List> assetTypeList = getAssetType();
-		LOGGER.info("Calling getAsset()");
+		log.info("Calling getAsset()");
 		List<List> assetList = getAsset();
 		String finalResponse = "Aspect Type Names :: " + aspectList + "\n" + " Asset Type Names :: "
 				+ assetTypeList.get(0) + "\n" + " Asset Type file assignments ::" + assetTypeList.get(1)
@@ -167,11 +179,13 @@ public class AssetManagementService extends MindsphereService {
 
 	private List<List> getAsset() throws MindsphereException {
 		AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
+		log.info("assetClient initialized successfully");
 		List<String> assetList = new ArrayList<String>();
 		List<List> assetResourceCombo = new ArrayList<>();
 		List<String> fileAssignments = new ArrayList<>();
 		AssetListResource assets = assetClient.listAssets(0, 10, null, null, null);
 		List<AssetResource> assetsList = assets.getEmbedded().getAssets();
+		log.info("Getting  listAssets successfully "+assetsList);
 		for (AssetResource assetResource : assetsList) {
 			assetList.add(assetResource.getName());
 
@@ -184,6 +198,7 @@ public class AssetManagementService extends MindsphereService {
 
 	private List<List> getAssetType() throws MindsphereException {
 		AssettypeClient assetTypeClient = assetManagementHelper.getAssetTypeClient(getToken(), getHostName());
+		log.info("assetTypeClient initialized successfully");
 		List<String> assetTypeList = new ArrayList<String>();
 		List<List> assetTypeResourceCombo = new ArrayList<>();
 		List<String> fileAssignments = new ArrayList<>();
@@ -192,7 +207,7 @@ public class AssetManagementService extends MindsphereService {
 
 		// list of assetTypes API call
 		assetTypes = assetTypeClient.listAssetTypes(page, size, null, null, null, false);
-
+		log.info("Getting  listAssetTypes successfully "+assetTypes);
 		List<AssetTypeResource> assetTypesList = assetTypes.getEmbedded().getAssetTypes();
 
 		for (AssetTypeResource assetTypeResource : assetTypesList) {
@@ -207,13 +222,14 @@ public class AssetManagementService extends MindsphereService {
 
 	private List<String> getAspectType() throws MindsphereException {
 		AspecttypeClient aspectTypeClient = assetManagementHelper.getAspectTypeClient(getToken(), getHostName());
+		 log.info("aspectTypeClient initialized successfully");
 		List<String> aspectTypeList = new ArrayList<String>();
 		int page = 0;
 		AspectTypeListResource aspects = null;
 
 		// call to listofAspectTypes API
 		aspects = aspectTypeClient.listAspectTypes(page, 10, null, null, null);
-
+		log.info("Getting  listAspectTypes successfully "+aspects);
 		List<AspectTypeResource> aspectTypes = aspects.getEmbedded().getAspectTypes();
 		for (AspectTypeResource aspectTypeResource : aspectTypes) {
 			aspectTypeList.add(aspectTypeResource.getName());
@@ -238,7 +254,7 @@ public class AssetManagementService extends MindsphereService {
 
 		// deleting asset file assignment API call
 		assetData = assetClient.deleteAssetFileAssigment(id, key1, ifMatch.toString());
-		LOGGER.info("successfully deleted Asset File Assignment");
+		log.info("successfully deleted Asset File Assignment");
 
 		assetTypeId = assetData.getTypeId();
 		assetTypeObj = assetTypeClient.getAssetType(assetTypeId, null, null);
@@ -257,16 +273,16 @@ public class AssetManagementService extends MindsphereService {
 			timeseriesClient.deleteTimeseries(deleteUpdatedTimeseriesRequest);
 			
 			//timeseriesClient.deleteTimeseries(id, aspect.getName(), from, to);
-			LOGGER.info("Deleted time series data");
+			log.info("Deleted time series data");
 		}
 
 		// deleting asset type file assignment API call
 		assetTypeClient.deleteAssetTypeFileAssignment(assetTypeId, key2, ifmatch_AssetType.toString());
-		LOGGER.info("successfully deleted Asset type file assignment");
+		log.info("successfully deleted Asset type file assignment");
 
 		// deleting asset API call
 		assetClient.deleteAsset(assetData.getEtag().toString(), assetData.getAssetId());
-		LOGGER.info("successfully deleted Asset");
+		log.info("successfully deleted Asset");
 
 		assetTypeObj = assetTypeClient.getAssetType(assetTypeId, null, null);
 
@@ -274,7 +290,7 @@ public class AssetManagementService extends MindsphereService {
 
 		// deleting asset type API call
 		assetTypeClient.deleteAssetType(ifmatch_AssetType.toString(), assetTypeObj.getId());
-		LOGGER.info("successfully deleted Asset Type");
+		log.info("successfully deleted Asset Type");
 
 		// deleting the aspect types linked to the asset type API call
 		for (AssetTypeResourceAspects aspect : aspectTypes) {
@@ -283,11 +299,11 @@ public class AssetManagementService extends MindsphereService {
 					aspect.getAspectType().getId());
 
 		}
-		LOGGER.info("successfully deleted Aspect Types");
+		log.info("successfully deleted Aspect Types");
 	}
 
     public AspectTypeResource createAspect(String tenantName) throws MindsphereException {
-        LOGGER.info("Calling createAspectType()");
+        log.info("Calling createAspectType()");
         AspectTypeResource aspect = createAspectType(tenantName);
         return aspect;
     }
@@ -302,71 +318,86 @@ public class AssetManagementService extends MindsphereService {
 	}
 
     public AssetTypeResource createAssetType(String tenantName, String aspectname, String aspectid) throws MindsphereException {
-        LOGGER.info("Calling createAssetType()");
+        log.info("Calling createAssetType()");
         AssettypeClient assetTypeClient = assetManagementHelper.getAssetTypeClient(getToken(), getHostName());
+        log.info("assetTypeClient initialized successfully.");        
         AssetType aspectType = assetManagementHelper.createAssetType(tenantName, aspectname, aspectid);
 
         // creating Aspect type API call
 
         AssetTypeResource response = assetTypeClient.saveAssetType(assetManagementHelper.createAspectTypeRequestModel(assetManagementHelper.getAssetId(), aspectType));
+        log.info("assetType created successfully " +response);  
         return response;
     }
 
     public AssetResourceWithHierarchyPath createAssets(String assetTypeId , String parentId) throws MindsphereException {
-        LOGGER.info("Calling createAsset()");
+        log.info("Calling createAsset()");
         AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
+        log.info("assetClient initialized successfully.");  
         Asset asset = assetManagementHelper.createAsset(assetTypeId, parentId);
         AssetResourceWithHierarchyPath response = assetClient.addAsset(assetManagementHelper.createAssetRequestModel(asset));
+        log.info("Asset created successfully " +response);
         return response;
         
     }
 
     public FileMetadataResource createFile() throws MindsphereException, IOException {
-        LOGGER.info("Calling createFile()");
+        log.info("Calling createFile()");
         FilesClient assetFileClient = assetManagementHelper.getFileClient(getToken(), getHostName());
+        log.info("assetFileClient initialized successfully.");  
         String fileName = "integ_" + assetManagementHelper.getRandomNumber();
         String filePath = "/test.txt";
         InputStream in = this.getClass().getResourceAsStream(filePath);
         File currFile = stream2file(in);
         // uploading file
         FileMetadataResource response = assetFileClient.uploadFile(assetManagementHelper.uploadFileRequestModel(currFile, fileName, "private", "test file uploading"));
+        log.info("File uploaded successfully with filename" +fileName);
         return response;
     }
 
     public String saveAssetLocation(String assetid, String asset_etag) throws MindsphereException {
-        LOGGER.info("Calling saveAssetLocation()");
+        log.info("Calling saveAssetLocation()");
         LocationsClient assetLocationClient = assetManagementHelper.getAssetLocation(getToken(), getHostName());
+        log.info("assetLocationClient initialized successfully.");  
         assetLocationClient.saveAssetLocation(assetManagementHelper.saveLocationRequestModel(assetid,asset_etag,assetManagementHelper.assetLocation()));
+        log.info("Succesfully updated with location to assetid : " + assetid);
         return "Succesfully updated with location to assetid : " + assetid;
     }
 
     public AssetResourceWithHierarchyPath fileAssignmentToAsset(String assetid, String ifmatch, String key, String fileId) throws MindsphereException {
-        LOGGER.info("Calling fileAssignmentToAsset()");
-        FilesClient assetFileClient = assetManagementHelper.getFileClient(getToken(), getHostName());
+        log.info("Calling fileAssignmentToAsset()");
         AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
+        log.info("assetClient initialized successfully."); 
         KeyedFileAssignment assignment = new KeyedFileAssignment();
         AssetResourceWithHierarchyPath response = assetClient.saveAssetFileAssignment(assetManagementHelper.fileAssignmentToAssetRequestModel(assetid, fileId, assignment, ifmatch, key));
+        log.info("successfully save fileassignement "+response); 
         return response;
     }
 
     public AssetResourceWithHierarchyPath getAssetById(String assetId) throws MindsphereException {
-        LOGGER.info("Calling getAssetById()");
+        log.info("Calling getAssetById()");
         AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
+        log.info("assetClient initialized successfully."); 
         AssetResourceWithHierarchyPath response = assetClient.getAsset(assetManagementHelper.getAssetRequestModel(assetId));
+        log.info("getting asset successfully with id"+assetId); 
         return response;
     }
 
     public String deleteAsset(String assetid, String etag) throws MindsphereException {
-        LOGGER.info("Calling getAssetById()");
+        log.info("Calling getAssetById()");
         AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
+        log.info("assetClient initialized successfully."); 
         assetClient.deleteAsset(assetManagementHelper.deleteAssetRequestModel(assetid, etag));
+        log.info("Successfully deleted the Asset : " + assetid);
         return "Successfully deleted the Asset : " + assetid;
     }
 
     public AssetListResource listAssets() throws MindsphereException {
-        LOGGER.info("Calling listAssets()");
+        log.info("Calling listAssets()");
         AssetsClient assetClient = assetManagementHelper.getAssetClient(getToken(), getHostName());
+        log.info("assetClient initialized successfully."); 
         AssetListResource response = assetClient.listAssets(assetManagementHelper.listAssetRequestModel(0,10));
+        log.info("getting listAssets successfully "+response); 
         return response;
     }
 }

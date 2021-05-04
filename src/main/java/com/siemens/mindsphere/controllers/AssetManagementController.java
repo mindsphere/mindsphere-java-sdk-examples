@@ -21,8 +21,11 @@ import com.siemens.mindsphere.sdk.assetmanagement.model.FileMetadataResource;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.AssetManagementService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping(value = "/assets")
+@Slf4j
 public class AssetManagementController {
 
 	/**
@@ -55,7 +58,7 @@ public class AssetManagementController {
 	public String createAsset(@RequestParam("tenantName") String tenantName,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException, IOException {
-
+		log.info("/assets/createAsset invoked.");
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.createAssetPackage(tenantName);
 
@@ -80,7 +83,7 @@ public class AssetManagementController {
 	@RequestMapping(method = RequestMethod.GET, value = "/getAssets")
 	public String getAssets(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/assets/getAssets invoked.");
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.getAssetPackage();
 	}
@@ -112,7 +115,8 @@ public class AssetManagementController {
 			@RequestParam("AssetTypeKey") String key2, @RequestParam("from") String from, @RequestParam("to") String to,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
-
+		log.info("/assets/deleteAsset invoked.");
+		log.info("Request params are : ID="+id+" AssetKey="+key1+" AssetTypeKey="+key2 +" from"+from+" to"+to);
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		assetManagaementService.deleteAssetPackage(id, key1, key2, from, to);
 		return "Successfully deleted";
@@ -144,7 +148,7 @@ public class AssetManagementController {
 	public AspectTypeResource createAspect(@RequestParam("tenantName") String tenantName,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException, IOException {
-
+		log.info("/assets/aspects invoked with tenantName :"+ tenantName);
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.createAspect(tenantName);
 	}
@@ -180,7 +184,7 @@ public class AssetManagementController {
 			@RequestParam("aspectname") String aspectname, @RequestParam("aspectid") String aspectid,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException, IOException {
-
+		log.info("/assets/assettype/"+tenantName+" invoked with aspectname :"+aspectname+ " and aspectId :"+aspectid);
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.createAssetType(tenantName, aspectname, aspectid);
 	}
@@ -214,7 +218,7 @@ public class AssetManagementController {
 			@RequestParam("parentid") String parentId,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException, IOException {
-
+		log.info("/assets/assets/"+assetTypeId+" invoked with parentid :"+parentId);
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.createAssets(assetTypeId, parentId);
 	}
@@ -241,7 +245,7 @@ public class AssetManagementController {
 	@RequestMapping(method = RequestMethod.GET, value = "/assetfiles")
 	public FileMetadataResource createAssets(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException, IOException {
-
+		log.info("/assets/assetfiles invoked.");
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.createFile();
 	}
@@ -276,7 +280,7 @@ public class AssetManagementController {
 	public String createAssets(@PathVariable("asset_id") String assetid, @PathVariable("asset_etag") String asset_etag,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException, IOException {
-
+		log.info("/assets/assetlocation/"+assetid+"/"+asset_etag+" invoked");
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.saveAssetLocation(assetid, asset_etag);
 	}
@@ -312,7 +316,7 @@ public class AssetManagementController {
 			@RequestParam("fileid") String fileid,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException, IOException {
-
+		log.info("/assets/assetfiles/"+assetid+" invoked with ifmatch :"+ifmatch+ " and key :"+key+" fileid"+fileid);
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.fileAssignmentToAsset(assetid, ifmatch, key, fileid);
 	}
@@ -343,7 +347,7 @@ public class AssetManagementController {
 	public AssetResourceWithHierarchyPath assetGet(@PathVariable("asset_id") String assetid,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException, IOException {
-
+		log.info("/assets/assetsget/"+assetid+" invoked.");
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.getAssetById(assetid);
 	}
@@ -377,7 +381,7 @@ public class AssetManagementController {
 	public String deleteGet(@PathVariable("asset_id") String assetid, @PathVariable("etag") String etag,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException, IOException {
-
+		log.info("/assets/assetsdelete/"+assetid+"/"+etag+" invoked.");
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.deleteAsset(assetid, etag);
 	}
@@ -404,7 +408,7 @@ public class AssetManagementController {
 	@RequestMapping(method = RequestMethod.GET, value = "/assets")
 	public AssetListResource getListAsset(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException, IOException {
-
+		log.info("/assets/assets invoked.");
 		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
 		return assetManagaementService.listAssets();
 	}

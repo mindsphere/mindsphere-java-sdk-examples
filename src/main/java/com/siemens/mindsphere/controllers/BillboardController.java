@@ -41,8 +41,6 @@ public class BillboardController {
             billboardService.getUserToken(userToken);
         }else if(MindsphereService.presentTokenType.equals(MindsphereService.TokenType.APP)) {
             return billboardService.getTechnicalToken(request.getRequestURL().toString());
-        }else if(MindsphereService.presentTokenType.equals(MindsphereService.TokenType.TENANT)) {
-            return billboardService.getTechnicalToken(request.getRequestURL().toString());
         }
         return null;
     }
@@ -53,8 +51,6 @@ public class BillboardController {
         if(MindsphereService.presentTokenType.equals(MindsphereService.TokenType.USER) && userToken!=null) {
             return userToken;
         }else if(MindsphereService.presentTokenType.equals(MindsphereService.TokenType.APP)) {
-            return billboardService.getEnCodedToken(request.getRequestURL().toString());
-        }else if(MindsphereService.presentTokenType.equals(MindsphereService.TokenType.TENANT)) {
             return billboardService.getEnCodedToken(request.getRequestURL().toString());
         }
         return null;

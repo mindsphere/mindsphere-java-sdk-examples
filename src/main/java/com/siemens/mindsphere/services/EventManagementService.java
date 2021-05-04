@@ -25,7 +25,10 @@ import com.siemens.mindsphere.sdk.eventmanagement.model.EventType.ScopeEnum;
 import com.siemens.mindsphere.sdk.eventmanagement.model.Field;
 import com.siemens.mindsphere.sdk.eventmanagement.model.Field.TypeEnum;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class EventManagementService extends MindsphereService {
 
     EventManagementHelper eventsHelper = new EventManagementHelper();
@@ -33,6 +36,7 @@ public class EventManagementService extends MindsphereService {
     public Object createtEventType(String token) throws MindsphereException, IOException {
         Object response = null;
         EventTypesClient eventTypeClient = eventsHelper.getEventsTypeClient(getToken(), getHostName());
+        log.info("eventTypeClient initialized successfully");
         
         //System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(eventTypeClient.getEventTypes()));
         String eventTypeName = "IntegTestCustomEvent" + new Random().nextInt(10000 - 10) + 10;
@@ -112,9 +116,10 @@ public class EventManagementService extends MindsphereService {
         try {
             EventType createdEventType = eventTypeClient.createEventType(eventType);
             response = createdEventType;
+            log.info("eventType created successfully "+ response);
         } catch (MindsphereException e) {
             response = "Error cause " + e.getErrorMessage();
-            System.out.println(response);
+            log.info(response+"");
         }
         return response;
     }
@@ -141,12 +146,15 @@ public class EventManagementService extends MindsphereService {
 
         customEvent.setFields(fields);
         EventsClient eventClient = eventsHelper.getEventsClient(getToken(), getHostName());
+        log.info("eventTypeClient initialized successfully");
         CustomEvent createdCustomEvent = null;
         try {
             createdCustomEvent = eventClient.createCustomEvent(customEvent);
             response = createdCustomEvent;
+            log.info("customeventType created successfully "+ response);
         } catch (MindsphereException ex) {
             response = "Error cause : " + ex.getErrorMessage();
+            log.info(response+"");
         }
         return response;
     }

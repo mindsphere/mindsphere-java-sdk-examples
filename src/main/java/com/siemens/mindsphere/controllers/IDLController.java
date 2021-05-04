@@ -15,8 +15,11 @@ import com.siemens.mindsphere.helpers.IDLHelper;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.IDLService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping(value = "/datalake")
+@Slf4j
 public class IDLController {
 	
 	/**
@@ -56,6 +59,7 @@ public class IDLController {
 	public String generateUploadObjectUrlsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
 
+		log.info("/datalake/generateUploadObjectUrls invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.generateUploadObjectUrlsTest();
 	}
@@ -82,6 +86,7 @@ public class IDLController {
 	public String generateDownloadObjectUrlsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
 
+		log.info("/datalake/generateDownloadObjectUrls invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.generateDownloadObjectUrlsTest();
 	}
@@ -109,6 +114,7 @@ public class IDLController {
 	public String createCrossAccount(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
 
+		log.info("/datalake/createcrossAccounts invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.createCrossAccount();
 	}
@@ -135,7 +141,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/updatecrossAccounts")
 	public String updateCrossAccount(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/updatecrossAccounts invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.updateCrossAccount();
 	}
@@ -161,7 +167,8 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/createCrossAccountAccess")
 	public String createCrossAccountAccess(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		
+		log.info("/datalake/createCrossAccountAccess invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.createCrossAccountAccess();
 	}
@@ -188,9 +195,10 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/updateCrossAccountAccess")
 	public String updateCrossAccountAccess(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/updateCrossAccountAccess invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.updateCrossAccountAccess();
+	
 	}
 	
 	/**
@@ -214,7 +222,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/objectEventSubscriptions")
 	public String createObjectEventSubscriptionTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/objectEventSubscriptions invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.createObjectEventSubscriptionTest();
 	}
@@ -241,7 +249,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/patchobjectEventSubscriptions")
 	public String patchObjectEventSubscriptionTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/patchobjectEventSubscriptions invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.patchObjectEventSubscriptionTest();
 	}
@@ -268,7 +276,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/objects")
 	public String queryObjectsOperation(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/objects invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.queryObjectsOperation();
 	}
@@ -295,7 +303,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/deleteObjectsJobs")
 	public String createDeleteObjectsJob(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/deleteObjectsJobs invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.createDeleteObjectsJob();
 	}
@@ -322,7 +330,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/getalldeleteObjectsJobs")
 	public String getallDeleteObjectsJob(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/getalldeleteObjectsJobs invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.getallDeleteObjectsJob();
 	}
@@ -350,7 +358,7 @@ public class IDLController {
 	public String getDeleteObjectsJob(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/getdeleteObjectsJobs/"+id+" invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.getDeleteObjectsJob(id);
 	}
@@ -377,7 +385,7 @@ public class IDLController {
 	public String getdeleteObjectsJoberrors(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/getdeleteObjectsJoberrors/"+id+" invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.getdeleteObjectsJoberrors(id);
 	}
@@ -404,7 +412,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/accessTokenPermissions")
 	public String listAccessTokenPermissionsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/accessTokenPermissions invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.listAccessTokenPermissionsTest();
 	}
@@ -431,7 +439,7 @@ public class IDLController {
 	public String getAccessTokenPermissionsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/accessTokenPermissions/"+id+" invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.getAccessTokenPermissionsTest(id);
 	}
@@ -459,7 +467,7 @@ public class IDLController {
 	public String deleteAccessTokenPermissionsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/deleteaccessTokenPermissions/"+id+" invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.deleteAccessTokenPermissionsTest(id);
 	}
@@ -486,6 +494,7 @@ public class IDLController {
 	public String createAccessTokenPermissionsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
 
+		log.info("/datalake/createaccessTokenPermissions invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.createAccessTokenPermissionsTest();
 	}
@@ -513,6 +522,7 @@ public class IDLController {
 	public String generateAccessTokenTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
 
+		log.info("/datalake/generateAccessToken invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.generateAccessTokenTest();
 	}
@@ -539,7 +549,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/objectMetadata")
 	public String createOrUpdateObjectMetadataTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/objectMetadata invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.createOrUpdateObjectMetadataTest();
 	}
@@ -566,7 +576,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/retrieveobjectMetadata")
 	public String retrieveObjectMetadataTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/retrieveobjectMetadata invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.retrieveObjectMetadataTest();
 	}
@@ -593,7 +603,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/timeSeriesImportJobs")
 	public String createTimeSeriesImportJobTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/timeSeriesImportJobs invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.createTimeSeriesImportJobTest();
 	}
@@ -621,7 +631,7 @@ public class IDLController {
 	@RequestMapping(method = RequestMethod.GET, value = "/listtimeSeriesImportJobs")
 	public String queryTimeSeriesImportJobsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/listtimeSeriesImportJobs invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.queryTimeSeriesImportJobsTest();
 	}
@@ -649,7 +659,7 @@ public class IDLController {
 	public String retrieveTimeSeriesImportJobDetailsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/timeSeriesImportJobsdetails"+id+" invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.retrieveTimeSeriesImportJobDetailsTest(id);
 	}
@@ -677,7 +687,7 @@ public class IDLController {
 	public String deleteTimeSeriesImportJobDetailsTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/deletetimeSeriesImportJobs"+id+" invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.deleteTimeSeriesImportJobDetailsTest(id);
 	}
@@ -705,7 +715,7 @@ public class IDLController {
 	public String retrieveTimeSeriesImportJobTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/datalake/timeSeriesImportJobs"+id+" invoked.");
 		IDLHelper.selectToken(idlService, token, request.getRequestURL().toString());
 		return idlService.retrieveTimeSeriesImportJobTest(id);
 	}

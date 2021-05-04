@@ -29,7 +29,10 @@ import com.siemens.mindsphere.sdk.mindconnect.model.RecoverableRecordsIdDeleteRe
 import com.siemens.mindsphere.sdk.mindconnect.model.RecoverableRecordsIdDownloadLinkGetRequest;
 import com.siemens.mindsphere.sdk.mindconnect.model.RecoverableRecordsIdReplayPostRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MindConnectService extends MindsphereService {
 
 	MindConnectHelper mindConnectHelper = new MindConnectHelper();
@@ -41,11 +44,13 @@ public class MindConnectService extends MindsphereService {
 
 		DiagnosticActivationsGetRequest requestObject = new DiagnosticActivationsGetRequest();
 		PagedDiagnosticActivation response = diagnosticActivationsClient.diagnosticActivationsGet(requestObject);
-
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for diagnosticActivationsGet :" + response);
 			return response.toString();
-		else
-			return null;
+		}
+		else {
+			log.info("Getting null response for diagnosticActivationsGet");
+			return null;}
 
 	}
 
@@ -54,11 +59,15 @@ public class MindConnectService extends MindsphereService {
 		DiagnosticActivationsClient diagnosticActivationsClient = mindConnectHelper
 				.getDiagnosticActivationsClient(getToken(), getHostName());
 		DiagnosticActivationsPostRequest requestObject = mindConnectHelper.generateDiagnosticActivationsPostRequest();
+		log.info("Request generated Successfully for diagnosticActivationsPost: {}");
 		DiagnosticActivation response = diagnosticActivationsClient.diagnosticActivationsPost(requestObject);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for diagnosticActivationsPost :" + response);
 			return response.toString();
-		else
+		}else {
+			log.info("Getting null response for diagnosticActivationsPost");
 			return null;
+		}
 			
 	}
 
@@ -69,6 +78,7 @@ public class MindConnectService extends MindsphereService {
 		DiagnosticActivationsIdDeleteRequest requestObject = new DiagnosticActivationsIdDeleteRequest();
 		requestObject.setId(id);
 		diagnosticActivationsClient.diagnosticActivationsIdDelete(requestObject);
+		log.info("diagnosticActivation deleted Successfully.");
 		return "deleted";
 	}
 
@@ -79,10 +89,14 @@ public class MindConnectService extends MindsphereService {
 		DiagnosticActivationsIdGetRequest requestObject = new DiagnosticActivationsIdGetRequest();
 		requestObject.setId(id);
 		DiagnosticActivation response = diagnosticActivationsClient.diagnosticActivationsIdGet(requestObject);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for diagnosticActivationsIdGet:" + response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting null response for diagnosticActivationsIdGet");
 			return null;
+		}
 	}
 
 	public String diagnosticActivationsIdMessagesGetTest(String id) throws MindsphereException {
@@ -92,10 +106,14 @@ public class MindConnectService extends MindsphereService {
 		DiagnosticActivationsIdMessagesGetRequest requestObject = new DiagnosticActivationsIdMessagesGetRequest();
 		requestObject.setId(id);
 		PagedDiagnosticInformationMessages response = diagnosticActivationsClient.diagnosticActivationsIdMessagesGet(requestObject);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for diagnosticActivationsIdMessagesGet :" + response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting null response for diagnosticActivationsIdMessagesGet");
 			return null;
+		}
 		
 	}
 
@@ -109,10 +127,14 @@ public class MindConnectService extends MindsphereService {
 		diagnosticActivationStatus.setStatus(DiagnosticActivationStatus.StatusEnum.fromValue("ACTIVE"));
 		requestObject.setDiagnosticActivationStatus(diagnosticActivationStatus);
 		DiagnosticActivation response = diagnosticActivationsClient.diagnosticActivationsIdPut(requestObject);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for diagnosticActivationsIdPut :" + response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting null response for diagnosticActivationsIdPut");
 			return null;
+		}
 	}
 
 	public String dataPointMappingsGetTest() throws MindsphereException {
@@ -121,10 +143,14 @@ public class MindConnectService extends MindsphereService {
 		
 		DataPointMappingsGetRequest dataPointMappingsGetRequest = new DataPointMappingsGetRequest();
 		PagedMapping response = mappingClient.dataPointMappingsGet(dataPointMappingsGetRequest);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for dataPointMappingsGet :" + response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting null response for dataPointMappingsGet");
 			return null;
+		}
 		
 	}
 
@@ -135,10 +161,15 @@ public class MindConnectService extends MindsphereService {
 		DataPointMappingsIdGetRequest requestObject = new DataPointMappingsIdGetRequest();
 		requestObject.setId(id);
 		Mapping response = mappingClient.dataPointMappingsIdGet(requestObject);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for dataPointMappingsIdGet:" + response);
 			return response.toString();
+		}
 		else
+		{
+			log.info("Getting null response for dataPointMappingsIdGet");
 			return null;
+		}
 	}
 
 	public String dataPointMappingsPostTest() throws MindsphereException {
@@ -146,11 +177,16 @@ public class MindConnectService extends MindsphereService {
 				.getMappingsClient(getToken(), getHostName());
 		
 		DataPointMappingsPostRequest requestObject = mindConnectHelper.generateDataPointMappingsPostRequest();
+		log.info("Request generated Successfully for dataPointMappingsPost: {}");
 		Mapping response = mappingClient.dataPointMappingsPost(requestObject);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for dataPointMappingsPost :" + response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting null response for dataPointMappingsPost");
 			return null;
+		}
 		
 	}
 
@@ -161,6 +197,7 @@ public class MindConnectService extends MindsphereService {
 		DataPointMappingsIdDeleteRequest requestObject = new DataPointMappingsIdDeleteRequest();
 		requestObject.setId(id);
 		mappingClient.dataPointMappingsIdDelete(requestObject);
+		log.info("dataPointMapping deleted successfully :");
 		return "deleted";
 	}
 
@@ -170,10 +207,14 @@ public class MindConnectService extends MindsphereService {
 		
 		RecoverableRecordsGetRequest requestObject = new RecoverableRecordsGetRequest();
 		PagedRecoverableRecords response = recoveryClient.recoverableRecordsGet(requestObject);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response Successfully for recoverableRecordsGet :" + response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting null response for recoverableRecordsGet");
 			return null;
+		}
 		
 	}
 
@@ -184,6 +225,7 @@ public class MindConnectService extends MindsphereService {
 		RecoverableRecordsIdReplayPostRequest requestObject = new RecoverableRecordsIdReplayPostRequest();
 		requestObject.setId(id);
 		recoveryClient.recoverableRecordsIdReplayPost(requestObject);
+		log.info("recoverableRecordsIdReplayPost created successfully" );
 		return "created";
 	}
 
@@ -193,6 +235,8 @@ public class MindConnectService extends MindsphereService {
 		RecoverableRecordsIdDownloadLinkGetRequest requestObject = new RecoverableRecordsIdDownloadLinkGetRequest();
 		requestObject.setId(id);
 		String response = recoveryClient.recoverableRecordsIdDownloadLinkGet(requestObject);
+		if(response!=null)
+			log.info("Getting response Successfully for recoverableRecordsIdDownloadLinkGet :" + response);
 		return response;
 		
 	}
@@ -203,6 +247,7 @@ public class MindConnectService extends MindsphereService {
 		RecoverableRecordsIdDeleteRequest requestObject = new RecoverableRecordsIdDeleteRequest();
 		requestObject.setId(id);
 	    recoveryClient.recoverableRecordsIdDelete(requestObject);
+	    log.info("recoverableRecords deleted successfully");
 	    return "deleted";
 	}
 	

@@ -18,8 +18,11 @@ import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.sdk.iotfileservices.model.FileResponse;
 import com.siemens.mindsphere.services.FileService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping(value = "/files")
+@Slf4j
 public class FileServiceController {
 
 	/**
@@ -65,7 +68,7 @@ public class FileServiceController {
 	public String putFile(@PathVariable("entityId") String entityId,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws IOException, MindsphereException {
-
+		log.info("/files/fileservicecreate/"+entityId+" invoked.");
 		FileServiceHelper.selectToken(fileService, token, request.getRequestURL().toString());
 		return fileService.createFile(entityId);
 	}
@@ -93,7 +96,7 @@ public class FileServiceController {
 	public String deleteFile(@PathVariable("entityId") String entityId, @PathVariable("filepath") String filepath,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
-
+		log.info("/files/deleteFile/"+entityId+"/"+filepath+" invoked.");
 		FileServiceHelper.selectToken(fileService, token, request.getRequestURL().toString());
 		return fileService.deleteFile(entityId, filepath);
 	}
@@ -122,7 +125,7 @@ public class FileServiceController {
 	public byte[] getFile(@PathVariable("entityId") String entityId, @PathVariable("file_path") String filePath,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws IOException, MindsphereException {
-
+		log.info("/files/fileservicegetfile/"+entityId+"/"+filePath+" invoked.");
 		FileServiceHelper.selectToken(fileService, token, request.getRequestURL().toString());
 		return fileService.getFile(entityId, filePath);
 	}
@@ -150,7 +153,7 @@ public class FileServiceController {
 	public List<FileResponse> searchFile(@PathVariable("entityId") String entityId,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws IOException, MindsphereException {
-
+		log.info("/files/fileservicesearch/"+entityId+" invoked.");
 		FileServiceHelper.selectToken(fileService, token, request.getRequestURL().toString());
 		return fileService.searchFile(entityId);
 	}
@@ -198,7 +201,7 @@ public class FileServiceController {
 			@RequestParam(required = false, value = "upload") String upload,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws IOException, MindsphereException {
-
+		log.info("/files/fileservicecreatemultipartfile/"+entityId+"/"+filePath+" invoked.");
 		FileServiceHelper.selectToken(fileService, token, request.getRequestURL().toString());
 		return fileService.createMultiPart(entityId, filePath, partNum, upload);
 	}

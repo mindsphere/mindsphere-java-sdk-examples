@@ -65,7 +65,10 @@ import com.siemens.mindsphere.sdk.integrateddatalake.model.SubscriptionResponse;
 import com.siemens.mindsphere.sdk.integrateddatalake.model.UpdateCrossAccountAccessRequest;
 import com.siemens.mindsphere.sdk.integrateddatalake.model.UpdateCrossAccountRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class IDLService extends MindsphereService {
 
 	IDLHelper idlHelper = new IDLHelper();
@@ -73,30 +76,42 @@ public class IDLService extends MindsphereService {
 	public String generateUploadObjectUrlsTest() throws MindsphereException {
 		ObjectAccessOperationsClient objectAccessOperationsClient = idlHelper
 				.getObjectAccessOperationsClient(getToken(), getHostName());
+		
+		log.info("objectAccessOperationsClient initialized successfully");
 
 		GenerateUploadObjectUrlsRequest generateUploadObjectUrlsRequest = idlHelper
 				.getGenerateUploadObjectUrlsRequest();
 		SignedUrlResponse response = objectAccessOperationsClient
 				.generateUploadObjectUrls(generateUploadObjectUrlsRequest);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting Response Successfully for generateUploadObjectUrls :" + response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting null response for generateUploadObjectUrls");
 			return null;
+		}
 
 	}
 
 	public String generateDownloadObjectUrlsTest() throws MindsphereException {
 		ObjectAccessOperationsClient objectAccessOperationsClient = idlHelper
 				.getObjectAccessOperationsClient(getToken(), getHostName());
+		
+		log.info("objectAccessOperationsClient initialized successfully");
 
 		GenerateDownloadObjectUrlsRequest generateDownloadObjectUrlsRequest = idlHelper
 				.getGenerateDownloadObjectUrlsRequest();
 		SignedUrlResponse response = objectAccessOperationsClient
 				.generateDownloadObjectUrls(generateDownloadObjectUrlsRequest);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting Response Successfully for generateDownloadObjectUrls :" + response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting null response for generateDownloadObjectUrls");
 			return null;
+		}
 
 	}
 
@@ -104,8 +119,12 @@ public class IDLService extends MindsphereService {
 		String finalresponse = null;
 		ObjectAccessOperationsClient objectAccessOperationsClient = idlHelper
 				.getObjectAccessOperationsClient(getToken(), getHostName());
+		
+		log.info("objectAccessOperationsClient initialized successfully");
 		ListCrossAccountRequest requestObj = new ListCrossAccountRequest();
 		CrossAccountListResource response = objectAccessOperationsClient.listCrossAccount(requestObj);
+		
+		log.info("Getting response for listCrossAccount is" +response);
 		if (response != null && response.getCrossAccounts().size() > 0) {
 			CrossAccount crossaccount = response.getCrossAccounts().get(0);
 			String id = crossaccount.getId();
@@ -114,17 +133,24 @@ public class IDLService extends MindsphereService {
 			delrequestObj.setId(crossaccount.getId());
 			delrequestObj.setIfMatch(crossaccount.getETag().intValue());
 			objectAccessOperationsClient.deleteCrossAccount(delrequestObj);
+			log.info("CrossAccount deleted successfully" +delrequestObj);
 			CreateCrossAccountRequest crossaccountrequestObj = idlHelper.getCreateCrossAccountRequest(accessId);
 			CrossAccount response1 = objectAccessOperationsClient.createCrossAccount(crossaccountrequestObj);
-			if (response != null && response != null)
+			if (response != null && response1 != null) {
+				log.info("CrossAccount created successfully" +response1);
 				finalresponse = getselectedOutput(response, response1);
+			}
 		} else {
 			CreateCrossAccountRequest crossaccountrequestObj = idlHelper.getCreateCrossAccountRequest("565037524705");
 			CrossAccount response1 = objectAccessOperationsClient.createCrossAccount(crossaccountrequestObj);
-			if (response1 != null)
+			if (response1 != null) {
+				log.info("CrossAccount created successfully" +response1);
 				return response1.toString();
-			else
+			}
+			else {
+				log.info("Getting null rsponse for createCrossaccount" +response1);
 				return null;
+			}
 
 		}
 		return finalresponse;
@@ -142,8 +168,11 @@ public class IDLService extends MindsphereService {
 		String finalResponse = null;
 		ObjectAccessOperationsClient objectAccessOperationsClient = idlHelper
 				.getObjectAccessOperationsClient(getToken(), getHostName());
+		
+		log.info("objectAccessOperationsClient initialized successfully");
 		ListCrossAccountRequest requestObj = new ListCrossAccountRequest();
 		CrossAccountListResource response = objectAccessOperationsClient.listCrossAccount(requestObj);
+		log.info("Getting response for listCrossAccount is" +response);
 		if (response != null && response.getCrossAccounts().size() > 0) {
 			GetCrossAccountRequest getrequestObj = new GetCrossAccountRequest();
 			getrequestObj.setId(response.getCrossAccounts().get(0).getId());
@@ -151,13 +180,15 @@ public class IDLService extends MindsphereService {
 			UpdateCrossAccountRequest updaterequestObj = idlHelper
 					.getUpdateCrossAccountRequest(response.getCrossAccounts().get(0));
 			CrossAccount updatedresponse = objectAccessOperationsClient.updateCrossAccount(updaterequestObj);
-			if (updatedresponse != null && getresponse != null)
+			if (updatedresponse != null && getresponse != null) {
+				log.info("CrossAccount updated successfully" +updatedresponse);
 				finalResponse = "GetCrossAccount " + getresponse.toString() + " UpdateCrossAccount "
 						+ updatedresponse.toString();
-		} else {
-			if(response!=null)
-				return response.toString();
+			}
+		} else {			
 			finalResponse = "No Crossaccount found , First create  Crossaccount";
+			log.info("Response: "+finalResponse);
+			
 		}
 		return finalResponse;
 	}
@@ -165,15 +196,19 @@ public class IDLService extends MindsphereService {
 	public String createCrossAccountAccess() throws MindsphereException {
 		ObjectAccessOperationsClient objectAccessOperationsClient = idlHelper
 				.getObjectAccessOperationsClient(getToken(), getHostName());
+		log.info("objectAccessOperationsClient initialized successfully");
+		
 		ListCrossAccountRequest requestObj = new ListCrossAccountRequest();
 		CrossAccountAccess crossAccountAccessresponse = null;
 		CrossAccountListResource response = objectAccessOperationsClient.listCrossAccount(requestObj);
+		log.info("Getting response for listCrossAccount is" +response);
 		String finalresponse = null;
 		if (response != null && response.getCrossAccounts().size() > 0) {
 			ListCrossAccountAccessRequest listrequestObj = new ListCrossAccountAccessRequest();
 			listrequestObj.setId(response.getCrossAccounts().get(0).getId());
 			CrossAccountAccessListResource listresponse = objectAccessOperationsClient
 					.listCrossAccountAccess(listrequestObj);
+			log.info("Getting response for listCrossAccountAccess is" +response);
 			if (listresponse != null && listresponse.getCrossAccountAccesses().size() > 0) {
 				CrossAccountAccess crossAccountAccess = listresponse.getCrossAccountAccesses().get(0);
 				DeleteCrossAccountAccessRequest delrequestObj = new DeleteCrossAccountAccessRequest();
@@ -181,10 +216,12 @@ public class IDLService extends MindsphereService {
 				delrequestObj.setAccessId(crossAccountAccess.getId());
 				delrequestObj.setIfMatch(crossAccountAccess.getETag().intValue());
 				objectAccessOperationsClient.deleteCrossAccountAccess(delrequestObj);
+				log.info("CrossAccountAccess deleted successfully" +delrequestObj);
 				CreateCrossAccountAccessRequest createaccessrequestObj = idlHelper
 						.getCreateCrossAccountAccessRequest(response.getCrossAccounts().get(0).getId());
 				crossAccountAccessresponse = objectAccessOperationsClient
 						.createCrossAccountAccess(createaccessrequestObj);
+				log.info("CrossAccountAccess created successfully" +crossAccountAccessresponse);
 
 			}
 
@@ -193,6 +230,7 @@ public class IDLService extends MindsphereService {
 						.getCreateCrossAccountAccessRequest(response.getCrossAccounts().get(0).getId());
 				crossAccountAccessresponse = objectAccessOperationsClient
 						.createCrossAccountAccess(createaccessrequestObj);
+				log.info("CrossAccountAccess created successfully" +crossAccountAccessresponse);
 
 			}
 			if (listresponse != null && crossAccountAccessresponse != null)
@@ -200,9 +238,8 @@ public class IDLService extends MindsphereService {
 						+ crossAccountAccessresponse;
 
 		} else {
-			if(response!=null)
-				return response.toString();
 			finalresponse = "No Crossaccount found , First create  Crossaccount";
+			log.info("Response: "+finalresponse);
 		}
 		return finalresponse;
 	}
@@ -211,13 +248,16 @@ public class IDLService extends MindsphereService {
 		String finalresponse = null;
 		ObjectAccessOperationsClient objectAccessOperationsClient = idlHelper
 				.getObjectAccessOperationsClient(getToken(), getHostName());
+		log.info("objectAccessOperationsClient initialized successfully");
 		ListCrossAccountRequest requestObj = new ListCrossAccountRequest();
 		CrossAccountListResource response = objectAccessOperationsClient.listCrossAccount(requestObj);
+		log.info("Getting response for listCrossAccount is" +response);
 		if (response != null && response.getCrossAccounts().size() > 0) {
 			ListCrossAccountAccessRequest listrequestObj = new ListCrossAccountAccessRequest();
 			listrequestObj.setId(response.getCrossAccounts().get(0).getId());
 			CrossAccountAccessListResource listresponse = objectAccessOperationsClient
 					.listCrossAccountAccess(listrequestObj);
+			log.info("Getting response for listCrossAccountAccess is" +response);
 			if (listresponse != null && listresponse.getCrossAccountAccesses().size() > 0) {
 				CrossAccountAccess crossAccountAccess = listresponse.getCrossAccountAccesses().get(0);
 				GetCrossAccountAccessRequest getrequestObj = new GetCrossAccountAccessRequest();
@@ -228,16 +268,17 @@ public class IDLService extends MindsphereService {
 						response.getCrossAccounts().get(0).getId(), crossAccountAccess);
 				CrossAccountAccess updateresponse = objectAccessOperationsClient
 						.updateCrossAccountAccess(updaterequestObj);
-				if (getresponse != null && updateresponse != null)
+				if (getresponse != null && updateresponse != null) {
+					log.info("CrossAccountAccess updated successfully" +updateresponse);
 					finalresponse = "GetcrossAccountAccess " + getresponse.toString() + " UpdatecrossAccountAccess "
 							+ updateresponse.toString();
+				}
 				return finalresponse;
 			}
 
 		} else {
-			if(response!=null)
-				return response.toString();
 			finalresponse = "No CrossaccountAccess found , First create one CrossaccountAccess";
+			log.info("Response: "+finalresponse);
 		}
 
 		return finalresponse;
@@ -247,22 +288,27 @@ public class IDLService extends MindsphereService {
 		String finalresponse = null;
 		ObjectEventSubscriptionOperationsClient objectEventSubscriptionOperationsClient = idlHelper
 				.getObjectEventSubscriptionOperationsClient(getToken(), getHostName());
+		log.info("objectEventSubscriptionOperationsClient initialized successfully");
 		QueryObjectEventSubscriptionsRequest requestObj = new QueryObjectEventSubscriptionsRequest();
 		SubscriptionListResource response = objectEventSubscriptionOperationsClient
 				.queryObjectEventSubscriptions(requestObj);
+		log.info("Getting response for queryObjectEventSubscriptions is" +response);
 		if (response != null && response.getSubscriptions().size() > 0) {
 			SubscriptionResponse subscriptionResponse = response.getSubscriptions().get(0);
 			DeleteObjectEventSubscriptionRequest delrequestObj = new DeleteObjectEventSubscriptionRequest();
 			delrequestObj.setId(subscriptionResponse.getId());
 			delrequestObj.setIfMatch(subscriptionResponse.getETag().intValue());
 			objectEventSubscriptionOperationsClient.deleteObjectEventSubscription(delrequestObj);
+			log.info("ObjectEventSubscription deleted successfully "+delrequestObj);
 			CreateObjectEventSubscriptionRequest createrequestObj = idlHelper
 					.getCreateObjectEventSubscriptionRequest(subscriptionResponse);
 			SubscriptionResponse createresponse = objectEventSubscriptionOperationsClient
 					.createObjectEventSubscription(createrequestObj);
-			if (subscriptionResponse != null && createresponse != null)
+			if (subscriptionResponse != null && createresponse != null) {
+				log.info("ObjectEventSubscription created successfully "+createresponse);
 				finalresponse = "ListobjectEventSubscriptions" + subscriptionResponse.toString()
 						+ "CreateobjectEventSubscriptions" + createresponse.toString();
+			}
 			return finalresponse;
 		} else {
 			CreateObjectEventSubscriptionRequest requestObj1 = new CreateObjectEventSubscriptionRequest();
@@ -272,10 +318,14 @@ public class IDLService extends MindsphereService {
 			requestObj1.setSubscription(subscription);
 			SubscriptionResponse response1 = objectEventSubscriptionOperationsClient
 					.createObjectEventSubscription(requestObj1);
-			if (response1 != null)
+			if (response1 != null) {
+				log.info("ObjectEventSubscription created successfully "+response1);
 				return response1.toString();
-			else
+			}
+			else {
+				log.info("getting null response for ObjectEventSubscription");
 				return null;
+			}
 
 		}
 	}
@@ -284,28 +334,32 @@ public class IDLService extends MindsphereService {
 		String finalresponse = null;
 		ObjectEventSubscriptionOperationsClient objectEventSubscriptionOperationsClient = idlHelper
 				.getObjectEventSubscriptionOperationsClient(getToken(), getHostName());
+		log.info("objectEventSubscriptionOperationsClient initialized successfully");
 		QueryObjectEventSubscriptionsRequest requestObj = new QueryObjectEventSubscriptionsRequest();
 		SubscriptionListResource response = objectEventSubscriptionOperationsClient
 				.queryObjectEventSubscriptions(requestObj);
+		log.info("Getting response for queryObjectEventSubscriptions is" +response);
 		if (response != null && response.getSubscriptions().size() > 0) {
 			SubscriptionResponse subscriptionResponse = response.getSubscriptions().get(0);
 			RetrieveObjectEventSubscriptionRequest retrieverequestObj = new RetrieveObjectEventSubscriptionRequest();
 			retrieverequestObj.setId(subscriptionResponse.getId());
 			SubscriptionResponse retrieveresponse = objectEventSubscriptionOperationsClient
 					.retrieveObjectEventSubscription(retrieverequestObj);
+			log.info("Getting response for retrieveObjectEventSubscription is" +retrieveresponse);
 			PatchObjectEventSubscriptionRequest patchrequestObj = idlHelper
 					.getPatchObjectEventSubscriptionRequest(subscriptionResponse);
 			SubscriptionResponse patchresponse = objectEventSubscriptionOperationsClient
 					.patchObjectEventSubscription(patchrequestObj);
-			if (retrieveresponse != null && patchresponse != null)
+			if (retrieveresponse != null && patchresponse != null) {
+				log.info("ObjectEventSubscription updated successfully "+patchresponse);
 				finalresponse = "RetrieveobjectEventSubscriptions" + retrieveresponse.toString()
 						+ "PatchobjectEventSubscriptions" + patchresponse.toString();
+			}
 			return finalresponse;
 
 		} else {
-			if(response!=null)
-				return response.toString();
 			finalresponse = "No EventSubscriptions found , First create  EventSubscriptions";
+			log.info("Response: "+finalresponse);
 		}
 
 		return finalresponse;
@@ -313,118 +367,167 @@ public class IDLService extends MindsphereService {
 
 	public String queryObjectsOperation() throws MindsphereException {
 		ObjectOperationsClient objectOperationsClient = idlHelper.getObjectOperationsClient(getToken(), getHostName());
+		log.info("objectOperationsClient initialized successfully");
 		QueryObjectsRequest requestObj = new QueryObjectsRequest();
 		ObjectListResponse response = objectOperationsClient.queryObjects(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for queryObjectsOperation is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for queryObjectsOperation");
 			return null;
+		}
 
 	}
 
 	public String createDeleteObjectsJob() throws MindsphereException {
 		ObjectOperationsClient objectOperationsClient = idlHelper.getObjectOperationsClient(getToken(), getHostName());
+		log.info("objectOperationsClient initialized successfully");
 		CreateDeleteObjectsJobRequest requestObj = idlHelper.getCreateDeleteObjectsJobRequest();
 		DeleteObjectsJobResponse response = objectOperationsClient.createDeleteObjectsJob(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for createDeleteObjectsJob is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for createDeleteObjectsJob");
 			return null;
+		}
 	}
 
 	public String getallDeleteObjectsJob() throws MindsphereException {
 		ObjectOperationsClient objectOperationsClient = idlHelper.getObjectOperationsClient(getToken(), getHostName());
+		log.info("objectOperationsClient initialized successfully");
 		GetAllDeleteObjectsJobRequest requestObj = new GetAllDeleteObjectsJobRequest();
 		DeleteObjectsJobList response = objectOperationsClient.getAllDeleteObjectsJob(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for getallDeleteObjectsJob is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for getallDeleteObjectsJob");
 			return null;
+		}
 	}
 
 	public String getDeleteObjectsJob(String id) throws MindsphereException {
 		ObjectOperationsClient objectOperationsClient = idlHelper.getObjectOperationsClient(getToken(), getHostName());
+		log.info("objectOperationsClient initialized successfully");
 		GetDeleteObjectsJobRequest requestObj = new GetDeleteObjectsJobRequest();
 		requestObj.setId(id);
 		DeleteObjectsJobResponse response = objectOperationsClient.getDeleteObjectsJob(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for getDeleteObjectsJob is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for getDeleteObjectsJob");
 			return null;
+		}
 	}
 
 	public String getdeleteObjectsJoberrors(String id) throws MindsphereException {
 		ObjectOperationsClient objectOperationsClient = idlHelper.getObjectOperationsClient(getToken(), getHostName());
+		log.info("objectOperationsClient initialized successfully");
 		GetDeleteObjectsJobErrorsRequest requestObj = new GetDeleteObjectsJobErrorsRequest();
 		requestObj.setId(id);
 		DeleteObjectsJobErrorDetailsResponse response = objectOperationsClient.getDeleteObjectsJobErrors(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for getdeleteObjectsJoberrors is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for getdeleteObjectsJoberrors");
 			return null;
+		}
 	}
 
 	public String listAccessTokenPermissionsTest() throws MindsphereException {
 		ObjectOperationsWithAccessTokenClient accessTokenClient = idlHelper
 				.getObjectOperationsWithAccessTokenClient(getToken(), getHostName());
+		log.info("accessTokenClient initialized successfully");
 		ListAccessTokenPermissionsRequest requestObj = new ListAccessTokenPermissionsRequest();
 		AccessTokenPermissionResources response = accessTokenClient.listAccessTokenPermissions(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for listAccessTokenPermissions is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for listAccessTokenPermissions");
 			return null;
+		}
 	}
 
 	public String getAccessTokenPermissionsTest(String id) throws MindsphereException {
 		ObjectOperationsWithAccessTokenClient accessTokenClient = idlHelper
 				.getObjectOperationsWithAccessTokenClient(getToken(), getHostName());
+		log.info("accessTokenClient initialized successfully");
 		GetAccessTokenPermissionsRequest requestObj = new GetAccessTokenPermissionsRequest();
 		requestObj.setId(id);
 		AccessTokenPermissionResource response = accessTokenClient.getAccessTokenPermissions(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for getAccessTokenPermissions is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for getAccessTokenPermissions");
 			return null;
+		}
 	}
 
 	public String deleteAccessTokenPermissionsTest(String id) throws MindsphereException {
 		ObjectOperationsWithAccessTokenClient accessTokenClient = idlHelper
 				.getObjectOperationsWithAccessTokenClient(getToken(), getHostName());
+		log.info("accessTokenClient initialized successfully");
 		DeleteAccessTokenPermissionsRequest requestObj = new DeleteAccessTokenPermissionsRequest();
 		requestObj.setId(id);
 		accessTokenClient.deleteAccessTokenPermissions(requestObj);
+		log.info("AccessTokenPermission deleted successfully");
 		return "deleted";
 	}
 
 	public String createAccessTokenPermissionsTest() throws MindsphereException {
 		ObjectOperationsWithAccessTokenClient accessTokenClient = idlHelper
 				.getObjectOperationsWithAccessTokenClient(getToken(), getHostName());
+		log.info("accessTokenClient initialized successfully");
 		AccessTokenPermissionsRequest requestObj = idlHelper.getAccessTokenPermissionsRequest();
 		AccessTokenPermissionResource response = accessTokenClient.accessTokenPermissions(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for createAccessTokenPermissions is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for createAccessTokenPermissions");
 			return null;
+		}
 	}
 
 	public String generateAccessTokenTest() throws MindsphereException {
 		ObjectOperationsWithAccessTokenClient accessTokenClient = idlHelper
 				.getObjectOperationsWithAccessTokenClient(getToken(), getHostName());
+		log.info("accessTokenClient initialized successfully");
 		GenerateAccessTokenRequest requestObj = new GenerateAccessTokenRequest();
 		GenerateSTSPayload generateSTSPayload = new GenerateSTSPayload();
 		requestObj.setStsPayload(generateSTSPayload);
 		AccessTokens response = accessTokenClient.generateAccessToken(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for generateAccessToken is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for generateAccessToken");
 			return null;
+		}
 	}
 
 	public String createOrUpdateObjectMetadataTest() throws MindsphereException {
 		ObjectsMetadataCatalogOperationsClient oCatalogOperationsClient = idlHelper
 				.getObjectsMetadataCatalogOperationsClient(getToken(), getHostName());
+		log.info("oCatalogOperationsClient initialized successfully");
 		CreateOrUpdateObjectMetadataRequest requestObj = idlHelper.getCreateOrUpdateObjectMetadataRequest();
 		oCatalogOperationsClient.createOrUpdateObjectMetadata(requestObj);
+		log.info("ObjectMetadata created/updated successfully");
 		return "created/updated";
 
 	}
@@ -432,38 +535,51 @@ public class IDLService extends MindsphereService {
 	public String retrieveObjectMetadataTest() throws MindsphereException {
 		ObjectsMetadataCatalogOperationsClient oCatalogOperationsClient = idlHelper
 				.getObjectsMetadataCatalogOperationsClient(getToken(), getHostName());
+		log.info("oCatalogOperationsClient initialized successfully");
 		RetrieveObjectMetadataRequest requestObj = new RetrieveObjectMetadataRequest();
 		requestObj.setPath("myfolder/mysubfolder/myobject.objext");
 		ObjectMetaDataResponse response = oCatalogOperationsClient.retrieveObjectMetadata(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for retrieveObjectMetadata is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for retrieveObjectMetadata");
 			return null;
+		}
 	}
 
 	public String createTimeSeriesImportJobTest() throws MindsphereException {
 		String finalresponse = null;
 		TimeSeriesBulkImportClient timeSeriesBulkImportClient = idlHelper.getTimeSeriesBulkImportClient(getToken(),
 				getHostName());
+		log.info("timeSeriesBulkImportClient initialized successfully");
 		QueryTimeSeriesImportJobsRequest requestObj = new QueryTimeSeriesImportJobsRequest();
 		ImportJobListResource response = timeSeriesBulkImportClient.queryTimeSeriesImportJobs(requestObj);
+		log.info("Getting response for queryTimeSeriesImportJobs is" +response);
 		if (response != null && response.getTimeSeriesImportJobs().size() > 0) {
 			ImportJobResponse importJobResponse = response.getTimeSeriesImportJobs().get(0);
 			DeleteTimeSeriesImportJobRequest delrequestObj = new DeleteTimeSeriesImportJobRequest();
 			delrequestObj.setId(importJobResponse.getId());
 			timeSeriesBulkImportClient.deleteTimeSeriesImportJob(delrequestObj);
+			log.info("TimeSeriesImportJobs deleted successfully"+delrequestObj);
 			CreateTimeSeriesImportJobRequest createrequestObj = idlHelper
 					.CreateTimeSeriesImportJobRequest(importJobResponse.getName());
 			ImportJobResponse createresponse = timeSeriesBulkImportClient.createTimeSeriesImportJob(createrequestObj);
-			if (importJobResponse != null && createresponse != null)
+			if (importJobResponse != null && createresponse != null) {
+				log.info("TimeSeriesImportJobs ccreated successfully"+delrequestObj);
 				finalresponse = "ListTimeSeriesImportJob " + importJobResponse.toString()
 						+ " CreateTimeSeriesImportJob " + createresponse.toString();
+			}
 			return finalresponse;
 		} else {
 			CreateTimeSeriesImportJobRequest createrequestObj = idlHelper.CreateTimeSeriesImportJobRequest("Test");
 			ImportJobResponse createresponse = timeSeriesBulkImportClient.createTimeSeriesImportJob(createrequestObj);
-			if (createresponse != null)
+			if (createresponse != null) {
 				finalresponse = "CreateTimeSeriesImportJob " + createresponse.toString();
+				log.info("TimeSeriesImportJobs ccreated successfully"+finalresponse);
+			}
+			
 			return finalresponse;
 		}
 	}
@@ -471,45 +587,62 @@ public class IDLService extends MindsphereService {
 	public String queryTimeSeriesImportJobsTest() throws MindsphereException {
 		TimeSeriesBulkImportClient timeSeriesBulkImportClient = idlHelper.getTimeSeriesBulkImportClient(getToken(),
 				getHostName());
+		log.info("timeSeriesBulkImportClient initialized successfully");
 		QueryTimeSeriesImportJobsRequest requestObj = new QueryTimeSeriesImportJobsRequest();
 		ImportJobListResource response = timeSeriesBulkImportClient.queryTimeSeriesImportJobs(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for ueryTimeSeriesImportJobs is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for ueryTimeSeriesImportJobs");
 			return null;
+		}
 	}
 
 	public String retrieveTimeSeriesImportJobDetailsTest(String id) throws MindsphereException {
 		TimeSeriesBulkImportClient timeSeriesBulkImportClient = idlHelper.getTimeSeriesBulkImportClient(getToken(),
 				getHostName());
+		log.info("timeSeriesBulkImportClient initialized successfully");
 		RetrieveTimeSeriesImportJobDetailsRequest requestObj = new RetrieveTimeSeriesImportJobDetailsRequest();
 		requestObj.setId(id);
 		ImportJobDetails response = timeSeriesBulkImportClient.retrieveTimeSeriesImportJobDetails(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for retrieveTimeSeriesImportJob is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for retrieveTimeSeriesImportJob");
 			return null;
+		}
 	}
 
 	public String deleteTimeSeriesImportJobDetailsTest(String id) throws MindsphereException {
 		TimeSeriesBulkImportClient timeSeriesBulkImportClient = idlHelper.getTimeSeriesBulkImportClient(getToken(),
 				getHostName());
+		log.info("timeSeriesBulkImportClient initialized successfully");
 		DeleteTimeSeriesImportJobRequest requestObj = new DeleteTimeSeriesImportJobRequest();
 		requestObj.setId(id);
 		timeSeriesBulkImportClient.deleteTimeSeriesImportJob(requestObj);
+		log.info("TimeSeriesImportJobDetails deleted successfully");
 		return "deleted";
 	}
 
 	public String retrieveTimeSeriesImportJobTest(String id) throws MindsphereException {
 		TimeSeriesBulkImportClient timeSeriesBulkImportClient = idlHelper.getTimeSeriesBulkImportClient(getToken(),
 				getHostName());
+		log.info("timeSeriesBulkImportClient initialized successfully");
 		RetrieveTimeSeriesImportJobRequest requestObj = new RetrieveTimeSeriesImportJobRequest();
 		requestObj.setId(id);
 		ImportJobResponse response = timeSeriesBulkImportClient.retrieveTimeSeriesImportJob(requestObj);
-		if (response != null)
+		if (response != null) {
+			log.info("Getting response for retrieveTimeSeriesImportJob is" +response);
 			return response.toString();
-		else
+		}
+		else {
+			log.info("Getting  null response for retrieveTimeSeriesImportJob");
 			return null;
+		}
 	}
 
 }

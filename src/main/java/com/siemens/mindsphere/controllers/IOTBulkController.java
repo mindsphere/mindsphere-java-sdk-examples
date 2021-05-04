@@ -16,8 +16,11 @@ import com.siemens.mindsphere.helpers.UpdatedTimeSeriesHelper;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.IOTBulkService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping(value = "/iotbulkdata")
+@Slf4j
 public class IOTBulkController {
 	
 	/**
@@ -50,6 +53,7 @@ public class IOTBulkController {
 	public String createTimeSeriesData(@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
 
+		log.info("/iotbulkdata/importjobs invoked.");
 		UpdatedTimeSeriesHelper.selectToken(iotBulkService, token, request.getRequestURL().toString());
 		return iotBulkService.importjobs();
 	}
@@ -78,7 +82,7 @@ public class IOTBulkController {
 	@RequestMapping(method = RequestMethod.GET, value = "/importjobs/{id}")
 	public String retrieveImportJobTest(@PathVariable("id") String id,@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
-
+		log.info("/iotbulkdata/importjobs/"+id+" invoked.");
 		UpdatedTimeSeriesHelper.selectToken(iotBulkService, token, request.getRequestURL().toString());
 		return iotBulkService.retrieveImportJobTest(id);
 	}
@@ -114,6 +118,7 @@ public class IOTBulkController {
             @RequestParam("to") String to,@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
 
+		log.info("/iotbulkdata/gettimeseries/"+entityId+"/"+propertySetName+" invoked with from :"+from+" and to :"+to);
 		UpdatedTimeSeriesHelper.selectToken(iotBulkService, token, request.getRequestURL().toString());
 		return iotBulkService.retrieveTimeseriesTest( entityId,propertySetName,from,to);
 	}

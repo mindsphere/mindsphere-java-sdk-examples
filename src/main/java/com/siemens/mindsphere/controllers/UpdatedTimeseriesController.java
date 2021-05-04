@@ -16,8 +16,11 @@ import com.siemens.mindsphere.helpers.UpdatedTimeSeriesHelper;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.UpdatedTimeseriesService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping(value = "/iottimeseries")
+@Slf4j
 public class UpdatedTimeseriesController {
 	
 	/**
@@ -60,6 +63,7 @@ public class UpdatedTimeseriesController {
 	public String createTimeSeriesData(@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
 
+		log.info("/iottimeseries/puttimeseries invoked.");
 		UpdatedTimeSeriesHelper.selectToken(timeSeriesService, token, request.getRequestURL().toString());
 		return timeSeriesService.createOrUpdateTimeseries();
 	}
@@ -92,6 +96,7 @@ public class UpdatedTimeseriesController {
             @PathVariable("propertySetName") String propertySetName,@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
 
+		log.info("/iottimeseries/gettimeseries/"+entityId+"/"+propertySetName+" invoked.");
 		UpdatedTimeSeriesHelper.selectToken(timeSeriesService, token, request.getRequestURL().toString());
 		return timeSeriesService.retrieveTimeseriesTest(entityId,propertySetName);
 	}
@@ -128,7 +133,8 @@ public class UpdatedTimeseriesController {
             @PathVariable("propertySetName") String propertySetName,@RequestParam("from") String from,
             @RequestParam("to") String to,@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
-
+		
+		log.info("/iottimeseries/gettimeserieswithfromto/"+entityId+"/"+propertySetName+" invoked with from :"+from +" and to :"+to);
 		UpdatedTimeSeriesHelper.selectToken(timeSeriesService, token, request.getRequestURL().toString());
 		return timeSeriesService.retrieveTimeserieswithFromandToTest(entityId,propertySetName,from,to);
 	}
@@ -164,7 +170,7 @@ public class UpdatedTimeseriesController {
 	public String createOrUpdateTimeseriesData(@PathVariable("entityId") String entityId,
             @PathVariable("propertySetName") String propertySetName,@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
-
+		log.info("/iottimeseries/puttimeseriesdata/"+entityId+"/"+propertySetName+" invoked.");
 		UpdatedTimeSeriesHelper.selectToken(timeSeriesService, token, request.getRequestURL().toString());
 		return timeSeriesService.createOrUpdateTimeseriesData(entityId,propertySetName);
 	}
@@ -200,7 +206,7 @@ public class UpdatedTimeseriesController {
             @PathVariable("propertySetName") String propertySetName,@RequestParam("from") String from,
             @RequestParam("to") String to,@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
-
+		log.info("/iottimeseries/deletetimeserieswithfromto/"+entityId+"/"+propertySetName+" invoked with from :"+from +" and to :"+to);
 		UpdatedTimeSeriesHelper.selectToken(timeSeriesService, token, request.getRequestURL().toString());
 		return timeSeriesService.deleteTimeserieswithFromandToTest(entityId,propertySetName,from,to);
 	}
