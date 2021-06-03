@@ -14,6 +14,7 @@ import com.siemens.mindsphere.sdk.timeseries.model.CreateOrUpdateTimeseriesReque
 import com.siemens.mindsphere.sdk.timeseries.model.DeleteUpdatedTimeseriesRequest;
 import com.siemens.mindsphere.sdk.timeseries.model.MultiStatusError;
 import com.siemens.mindsphere.sdk.timeseries.model.RetrieveTimeseriesRequest;
+import com.siemens.mindsphere.sdk.timeseries.model.TimeSeries;
 import com.siemens.mindsphere.sdk.timeseries.model.TimeSeriesDataItem;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,25 @@ public class UpdatedTimeseriesService extends MindsphereService {
 			return "created successfully";
 		}
 	}
+	
+	
+	public MultiStatusError putOrUpdateTimeseries(TimeSeries timeSeries) throws MindsphereException {
+		TimeSeriesOperationsClient ts = timeSeriesHelper.getTimeSeriesOperationsClient(getToken(), getHostName());
+		log.info("timeSeriesOperationsClient object created successfully : {}");
+		CreateOrUpdateTimeseriesRequest createOrUpdateTimeseriesRequest = new CreateOrUpdateTimeseriesRequest();
+		createOrUpdateTimeseriesRequest.setTimeseries(timeSeries);
+		MultiStatusError multiStatusError = ts.createOrUpdateTimeseries(createOrUpdateTimeseriesRequest);
+		if (multiStatusError != null) {
+			log.info("Getting error for createOrUpdateTimeseries"+multiStatusError);
+			return multiStatusError;
+		}
+		else {
+			log.info("Timeseries created successfully");
+			return null;
+		}
+	}
+	
+	
 
 	public String retrieveTimeseriesTest(String entityId, String propertySetName) throws MindsphereException {
 		TimeSeriesOperationsClient ts = timeSeriesHelper.getTimeSeriesOperationsClient(getToken(), getHostName());
@@ -77,6 +97,20 @@ public class UpdatedTimeseriesService extends MindsphereService {
 		}
 
 	}
+	
+	
+	public String putOrUpdateTimeseriesData(String entityId, String propertySetName,List<TimeSeriesDataItem> timeSeriesDataItems) throws MindsphereException {
+		TimeSeriesOperationsClient ts = timeSeriesHelper.getTimeSeriesOperationsClient(getToken(), getHostName());
+		log.info("timeSeriesOperationsClient object created successfully : {}");
+		CreateOrUpdateTimeseriesDataRequest requestObject = new CreateOrUpdateTimeseriesDataRequest();
+		requestObject.setEntityId(entityId);
+		requestObject.setPropertySetName(propertySetName);
+		requestObject.setTimeseries(timeSeriesDataItems);
+		ts.createOrUpdateTimeseriesData(requestObject);
+		log.info("Timeseries created successfully");
+		return "success";
+	}
+	
 
 	public String createOrUpdateTimeseriesData(String entityId, String propertySetName) throws MindsphereException {
 		TimeSeriesOperationsClient ts = timeSeriesHelper.getTimeSeriesOperationsClient(getToken(), getHostName());

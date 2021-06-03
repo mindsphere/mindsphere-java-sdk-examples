@@ -5,19 +5,26 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import com.google.gson.Gson;
 import com.siemens.mindsphere.helpers.AssetManagementHelper;
+import com.siemens.mindsphere.sdk.assetmanagement.model.AddAssetRequest;
+import com.siemens.mindsphere.sdk.assetmanagement.model.AspectType;
 import com.siemens.mindsphere.sdk.assetmanagement.model.AspectTypeResource;
+import com.siemens.mindsphere.sdk.assetmanagement.model.Asset;
 import com.siemens.mindsphere.sdk.assetmanagement.model.AssetListResource;
 import com.siemens.mindsphere.sdk.assetmanagement.model.AssetResourceWithHierarchyPath;
+import com.siemens.mindsphere.sdk.assetmanagement.model.AssetType;
 import com.siemens.mindsphere.sdk.assetmanagement.model.AssetTypeResource;
 import com.siemens.mindsphere.sdk.assetmanagement.model.FileMetadataResource;
+import com.siemens.mindsphere.sdk.assetmanagement.model.RootAssetResource;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.AssetManagementService;
 
@@ -32,6 +39,9 @@ public class AssetManagementController {
 	 * For complete API specification of asset management service refer :
 	 * https://developer.mindsphere.io/apis/advanced-assetmanagement/api-assetmanagement-api.html
 	 */
+	
+	
+	
 
 	@Autowired
 	private AssetManagementService assetManagaementService;
@@ -54,6 +64,49 @@ public class AssetManagementController {
 	 *         sdk call.
 	 * @throws IOException
 	 */
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/putaspect/{id}/{ifmatch}",consumes = {MediaType.APPLICATION_JSON_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE})
+	public AspectTypeResource putaspect(@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request,@PathVariable("id") String id, @PathVariable("ifmatch") String ifmatch
+			,@RequestBody AspectType aspecttype)
+			throws MindsphereException, IOException {
+		log.info("/assets/putaspect invoked.");
+		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
+		return assetManagaementService.putAspectType(aspecttype,id,ifmatch);
+
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/putassettype/{id}/{ifmatch}",consumes = {MediaType.APPLICATION_JSON_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE})
+	public AssetTypeResource putassettype(@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request,@PathVariable("id") String id, @PathVariable("ifmatch") String ifmatch
+			,@RequestBody AssetType assetType)
+			throws MindsphereException, IOException {
+		log.info("/assets/putassettype invoked.");
+		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
+		return assetManagaementService.putAssetType(assetType,id,ifmatch);
+
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/postasset",consumes = {MediaType.APPLICATION_JSON_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE})
+	public AssetResourceWithHierarchyPath postasset(@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request,@RequestBody Asset asset)
+			throws MindsphereException, IOException {
+		log.info("/assets/postasset invoked.");
+		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
+		AddAssetRequest addAssetRequest = new AddAssetRequest();
+		addAssetRequest.setAsset(asset);
+		return assetManagaementService.postAsset(addAssetRequest);
+
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/root")
+	public RootAssetResource getrootAsset(@RequestHeader(required = false, value = "Authorization") String token,
+			HttpServletRequest request) throws MindsphereException, IOException {
+		log.info("/assets/assets invoked.");
+		AssetManagementHelper.selectToken(assetManagaementService, token, request.getRequestURL().toString());
+		return assetManagaementService.rootAssets();
+	}
+	
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/createAsset")
 	public String createAsset(@RequestParam("tenantName") String tenantName,
 			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)

@@ -71,16 +71,13 @@ public class BillboardController {
      * @param map
      * @return set of available APIs for demo-app.
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/", produces={"text/plain"})
-    public ResponseEntity<Object> index(Model map) {
-        List<String> apis = billboardService.getAPIs();
-        String finalResponse = "";
-        for (String string : apis) {
-            finalResponse += string + "\n";
-        }
-       
-        
-        return new ResponseEntity<Object>(finalResponse, HttpStatus.OK);
-    }
-
+	/*
+	 * @RequestMapping(method = RequestMethod.GET, value = "/",
+	 * produces={"text/plain"}) public ResponseEntity<Object> index(Model map) {
+	 * List<String> apis = billboardService.getAPIs(); String finalResponse = "";
+	 * for (String string : apis) { finalResponse += string + "\n"; }
+	 * 
+	 * 
+	 * return new ResponseEntity<Object>(finalResponse, HttpStatus.OK); }
+	 */
 }
