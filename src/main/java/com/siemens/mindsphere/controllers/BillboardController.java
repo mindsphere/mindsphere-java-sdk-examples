@@ -37,6 +37,17 @@ public class BillboardController {
         log.info("The token type is changed to : " + MindsphereService.presentTokenType);
         return "The token type is changed to : " + MindsphereService.presentTokenType;
     }
+    
+    
+    
+    @RequestMapping(method = RequestMethod.GET, value = "tenanttype/gettenant")
+    public String gettenant() {
+    	
+        return System.getenv("MDSP_USER_TENANT");
+    }
+    
+    
+    
 
     @RequestMapping(method = RequestMethod.GET, value = "/token")
     public List<String> token(@RequestHeader(required = false, value = "Authorization") String userToken,

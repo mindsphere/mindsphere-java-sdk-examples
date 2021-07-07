@@ -1,21 +1,25 @@
 package com.siemens.mindsphere.model;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MsgBrokerSubscriptionResponse implements Serializable {
 
-	@JsonProperty("URL")
 	private String URL = null;
 
-	public String getURL() {
+	@JsonProperty(value = "URL")
+	public String getUrlvalue() {
 		return URL;
 	}
 
-	public void setURL(String uRL) {
-		URL = uRL;
+	public void setUrlvalue(String urlvalue) {
+		URL = urlvalue;
+	}
+
+	@Override
+	public String toString() {
+		return "MsgBrokerSubscriptionResponse [Urlvalue=" + URL + "]";
 	}
 
 	
