@@ -33,6 +33,8 @@ Application Credentials
 - For more information about credentials please visit [Token Handling](https://developer.mindsphere.io/resources/mindsphere-sdk-java-v2/token_handling_v2.html)
 ###### Note 
 > App Credentials and Application Credentials refers to same concept. These terms might be used interchangeably in the document.
+###### Note 
+> From now, Tenant Credential support is removed from Java SDKs. Older versions with tenant credential support are still available on [Siemens Industry Online Support (SIOS) Portal](https://support.industry.siemens.com/cs/document/109757603/mindsphere-sdk-for-java-and-node-js?dti=0&lc=en-US). This application uses latest library for mindsphere-core library with version 2.4.0. Using older version of mindsphere-core library might lead to breaking behaviour of application. Hence we strongly recommend you to use latest version for smooth experience.
 
 ##### env:
   HOST_ENVIRONMENT: eu1
@@ -62,8 +64,10 @@ git clone https://github.com/mindsphere/mindsphere-java-sdk-examples.git
 - Download Java SDK from [Download](#2---download).
 - Unzip the downloaded file.
 - Navigate to <some path where unzipped folder is located>/mindsphere-java-sdk_2.5.0/com/siemens/mindsphere/
-- Copy .jar files of required dependent service/services in 'libs' folder. 'libs' folder is already created for you in the root directory. (For this project(mindsphere-sdk-java-examples) we will need all the .jar files but you can choose to use only required subset of all avaiable SDKs for your project.)
-- For convinience, build.gradle is populated with relative path to copied dependencies.
+- Copy .jar files of required dependent service/services in 'libs' folder. 'libs' folder is already created for you in the root directory. (For this project(mindsphere-sdk-java-examples) we will need all the .jar files but you can choose to use only required subset of all available SDKs for your project.)
+- Kindly note that Tenant Credential Support is removed from python SDKs from now. Hence we strongly recommend using
+  latest version(2.4.0) of mindsphere-core library.
+- For convenience, build.gradle is populated with relative path to copied dependencies.
 
 ###### Note 
 > There are multiple versions available for few services. If you wish to use other version than specified in build.gradle, then change version in build.gradle.
@@ -232,6 +236,25 @@ Now concerned developer should be able to access the application via launchpad.
     <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/master/images/appurl.PNG" width="400">
     </p>
 
+#### Create an asset via application.
+1. For creating an asset we will first create aspect type. From created aspect type we create Asset type. Next we finally create an asset based on created Asset type.
+2. First hit the endpoint PUT /assets/putaspect/{id}/{ifmatch}.
+3.  If call is succesful, note down aspect id and aspect name from the response.
+4. Next, hit PUT /assets/putaassettype /{id}/{ifmatch}. Pass noted aspect id and aspect name value in payload for creating asset type. 
+5. If call is succesful, note down id from the response.
+6. Next hit GET /assets/root to get root asset of the tenant. Note down id of an asset from the response.
+7. Finally we will now create an asset. Pass id from step 5 and parent id from step 6 in the payload for creating an asset.
+8. If asset creation is successful, you should see created asset in the call GET /assets/assets.
+9. All the created resources (aspect type, asset type and asset) are visible on Asset Manager application on MindSphere Launchpad.
+
+###### Note 
+> Sample payload for endpoint is provided whenever required. For more information about payload, please refer `src/main/resources/sample-payload/<service-name>/sampleinput` file. Fields in the payload can be deleted as long as all mandatory fields are passed.
+> For now, swagger endpoints are provided for **asset management, timeseries and event analytics** service only. 
+> For other services, endpoints can be tried via entering url in browswer.
+
+###### Note 
+> We require XSRF token for calling PUT, POST/PATCH, DELETE APIs (For GET endpoints, XSRF_TOKEN is not compulsory). The value of XSRF token can be passed in request header. This token is available in cookies by name `XSRF-TOKEN`. We have fetched this token from cache in the application and put it in request header.  
+
 ### 4B - Set up Java Sample Project For Local Machine
 The following steps describe the way to set up a sample project to test. 
 ##### 1. Clone this repository.
@@ -243,8 +266,8 @@ git clone https://github.com/mindsphere/mindsphere-java-sdk-examples.git
 - Download Java SDK from [Download](#2---download).
 - Unzip the downloaded file.
 - Navigate to <some path where unzipped folder is located>/mindsphere-java-sdk_2.5.0/com/siemens/mindsphere/
-- Copy .jar files of required dependent service/services in 'libs' folder. 'libs' folder is already created for you in the root directory. (For this project(mindsphere-sdk-java-examples) we will need all the .jar files but you can choose to use only required subset of all avaiable SDKs for your project.)
-- For convinience, build.gradle is populated with relative path to copied dependencies.
+- Copy .jar files of required dependent service/services in 'libs' folder. 'libs' folder is already created for you in the root directory. (For this project(mindsphere-sdk-java-examples) we will need all the .jar files but you can choose to use only required subset of all available SDKs for your project.)
+- For convenience, build.gradle is populated with relative path to copied dependencies.
 
 ###### Note 
 > There are multiple versions available for few services. If you wish to use other version than specified in build.gradle, then change version in build.gradle.
@@ -270,11 +293,16 @@ java -jar build/libs/<generated-jar-file-name>.jar
 > You can choose to run the application in IDE of your choice.
 
 ##### 4. Access the app.
-1. Navigate to 'http://localhost:8080' (You can use any browswer of your choice).
+1. Navigate to 'http://localhost:8080' (You can use any browser of your choice).
 2. Domain URL in this case will be 'http://localhost:8080'.
 <p>
 <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/swaggerui-changes/images/homescreen.png" width="400">
 </p>
+
+###### Note 
+> Sample payload for endpoint is provided whenever required. For more information about payload, please refer `src/main/resources/sample-payload/<service-name>/sampleinput` file. Fields in the payload can be deleted as long as all mandatory fields are passed.
+> For now, swagger endpoints are provided for **asset management, timeseries and event analytics** service only. 
+> For other services, endpoints can be tried via entering url in browser.
 
 
 ### Login to CF
