@@ -16,8 +16,11 @@ import com.siemens.mindsphere.helpers.UpdatedTimeSeriesHelper;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.TSAggregateService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping(value = "/iottsaggregates")
+@Slf4j
 public class TSAggregateController {
 	
 	/**
@@ -65,8 +68,8 @@ public class TSAggregateController {
             @PathVariable("propertySetName") String propertySetName,@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
 
+		log.info("/iottsaggregates/gettimeseries/"+entityId+"/"+propertySetName+" invoked.");
 		UpdatedTimeSeriesHelper.selectToken(tSAggregateService, token, request.getRequestURL().toString());
-		String st = tSAggregateService.retrieveTimeseriesTest(entityId,propertySetName);
 		return tSAggregateService.retrieveTimeseriesTest(entityId,propertySetName);
 	}
 	
@@ -108,9 +111,8 @@ public class TSAggregateController {
             @PathVariable("propertySetName") String propertySetName, @RequestParam("from") String from,
             @RequestParam("to") String to,@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request)
 			throws MindsphereException {
-
+		log.info("/iottsaggregates/gettimeserieswithfromandto/"+entityId+"/"+propertySetName+" invoked with from :"+from +" and to :"+to);
 		UpdatedTimeSeriesHelper.selectToken(tSAggregateService, token, request.getRequestURL().toString());
-		String st = tSAggregateService.retrieveTimeseriesTest(entityId,propertySetName);
 		return tSAggregateService.getAggregateTimeseriesWithselect(entityId,propertySetName,from,to);
 	}
 	

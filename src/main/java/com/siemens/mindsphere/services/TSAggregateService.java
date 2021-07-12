@@ -11,7 +11,10 @@ import com.siemens.mindsphere.sdk.tsaggregates.model.AggregatesResponse;
 import com.siemens.mindsphere.sdk.tsaggregates.model.AggregatesV4;
 import com.siemens.mindsphere.sdk.tsaggregates.model.RetrieveAggregatesRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class TSAggregateService extends MindsphereService {
 
 	TSAggregateHelper tsAggregateHelper = new TSAggregateHelper();
@@ -25,10 +28,13 @@ public class TSAggregateService extends MindsphereService {
 		request.setAspectName(propertySetName);
 		AggregatesResponse aggregate = aggregatesClientV4.retrieveAggregates(request);
 		List<AggregatesV4> aggregateList = aggregate.getAggregates();
-		if (aggregateList != null)
+		if (aggregateList != null) {
+			log.info("Getting response Successfully for retrieveTimeseries :" + aggregateList);
 			return aggregateList.toString();
-		else
+		} else {
+			log.info("Getting null response for retrieveTimeseries");
 			return null;
+		}
 
 	}
 
@@ -43,10 +49,13 @@ public class TSAggregateService extends MindsphereService {
 		request.setTo(to);
 		AggregatesResponse aggregate = aggregatesClientV4.retrieveAggregates(request);
 		List<AggregatesV4> aggregateList = aggregate.getAggregates();
-		if (aggregateList != null)
+		if (aggregateList != null) {
+			log.info("Getting response Successfully for getAggregateTimeseriesWithselect :" + aggregateList);
 			return aggregateList.toString();
-		else
+		} else {
+			log.info("Getting null response for retrieveTimeseries");
 			return null;
+		}
 	}
 
 }

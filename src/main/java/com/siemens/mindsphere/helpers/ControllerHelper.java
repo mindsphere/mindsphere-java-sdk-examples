@@ -42,10 +42,9 @@ public class ControllerHelper {
 			LOGGER.info("Using User token to build creds");
 			creds = MindsphereCredentials.builder().authorization(token).build();
 		} else if (MindsphereService.presentTokenType.equals(MindsphereService.TokenType.APP)) {
+			LOGGER.info("Using App token to build creds");
 			creds = MindsphereCredentials.appCredentialsBuilder().build();
-		} else if (MindsphereService.presentTokenType.equals(MindsphereService.TokenType.TENANT)) {
-			creds = MindsphereCredentials.tenantCredentialsBuilder().build();
-		} else {
+		}  else {
 			LOGGER.error("Error while setting creds");
 		}
 		return creds;
@@ -71,6 +70,7 @@ public class ControllerHelper {
 	public static void selectToken(MindsphereService service, String token, String host) {
 		service.setHostName(host);
 		if (MindsphereService.presentTokenType.equals(MindsphereService.TokenType.USER)) {
+			LOGGER.info("User token type received successfully.");
 			if (token != null) {
 				service.setToken(token);
 			} else {

@@ -43,49 +43,55 @@ import com.siemens.mindsphere.sdk.core.RestClientConfig;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.AgentManagementService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping(value = "/agents")
+@Slf4j
 public class AgentManagementControllerTT {
 
 	@Autowired
 	private AgentManagementService agentManagementService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(AgentManagementControllerTT.class);
-	private RestClientConfig config=RestClientConfig.builder().build();
-	private MindsphereCredentials creds=MindsphereCredentials.builder().build();
-	//private RestClientConfig config=RestClientConfig.builder().build();
-	
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/createAgent/{assetId}")
-	public Agent createAgent(@RequestHeader(required = false, value = "Authorization") String token,@PathVariable("assetId") String assetId,
-			HttpServletRequest request) throws MindsphereException {
-		AgentsClient agentClient = ClientFactory.getAgentClient(config, creds);
+	private RestClientConfig config = RestClientConfig.builder().build();
+	private MindsphereCredentials creds = MindsphereCredentials.builder().build();
+	// private RestClientConfig config=RestClientConfig.builder().build();
 
+	@RequestMapping(method = RequestMethod.GET, value = "/createAgent/{assetId}")
+	public Agent createAgent(@RequestHeader(required = false, value = "Authorization") String token,
+			@PathVariable("assetId") String assetId, HttpServletRequest request) throws MindsphereException {
+		log.info("/agents/createAgent/" + assetId + " invoked.");
+		AgentsClient agentClient = ClientFactory.getAgentClient(config, creds);
+		log.info("agentClient object intialized successfully.");
 
 		AgentInput inp = new AgentInput();
 		inp.setEntityId(assetId);
 		inp.securityProfile(SecurityProfileEnum.SHARED_SECRET);
 		inp.name("sdk_test_" + new Random().nextInt());
 		try {
-		return agentClient.createAgent(inp);
-		}catch(MindsphereException e) {
-		    System.out.println(e.getErrorMessage());
-		    return null;
+			Agent agent = agentClient.createAgent(inp);
+			log.info("Agent created successfully " + agent);
+			return agent;
+
+		} catch (MindsphereException e) {
+			log.info("getting error while creating agent " + e.getErrorMessage());
+			System.out.println(e.getErrorMessage());
+			return null;
 		}
 
 	}
-	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/configuredata")
 	public DataSourceConfigurationInput configureData(
 			@RequestHeader(required = false, value = "Authorization") String token, @RequestParam("id") String agentID,
 			HttpServletRequest request) throws MindsphereException {
 
-
+		log.info("/agents/configuredata invoked with id " + agentID);
 		AgentsClient agentsClient = ClientFactory.getAgentClient(config, creds);
 		DataSourceConfigurationClient api = ClientFactory.getDataSourceConfigurationClient(config, creds);
-
+		log.info("agentClient object intialized successfully.");
 		Agent agentOutput = agentsClient.getAgentByID(agentID);
-
+		log.info("Getting agent Successfully " + agentOutput);
 		DataSourceConfigurationInput configuration = new DataSourceConfigurationInput();
 
 		DataPoint dp = new DataPoint();
@@ -94,13 +100,13 @@ public class AgentManagementControllerTT {
 		dp.setName("temp");
 		dp.setType(TypeEnum.DOUBLE);
 		dp.setUnit("C");
-		//dp.setCustomData("Nominal", "~220 C");
+		// dp.setCustomData("Nominal", "~220 C");
 		List<DataPoint> dpList = new ArrayList<>();
 		dpList.add(dp);
 		DataSource ds1 = new DataSource();
 		ds1.setDescription("IOT DEVICE 2 installed on BGLR.");
 		ds1.setName("IOT DEVICE 2");
-		//ds1.setCustomData("Proxy", "192.168.0.111:8765");
+		// ds1.setCustomData("Proxy", "192.168.0.111:8765");
 		ds1.setDataPoints(dpList);
 		List<DataSource> dsList = new ArrayList<DataSource>();
 		dsList.add(ds1);
@@ -108,24 +114,31 @@ public class AgentManagementControllerTT {
 		configuration.setDataSources(dsList);
 
 		DataSourceConfiguration response = api.createDataSourceConfiguration(agentOutput.getEntityId(), configuration);
+		log.info("DataSourceConfiguration created Successfully " + response);
 		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/status")
 	public OnboardingStatus status(@RequestHeader(required = false, value = "Authorization") String token,
 			@RequestParam("id") String agentID, HttpServletRequest request) throws MindsphereException {
-
+		log.info("/agents/status invoked with id " + agentID);
 		BoardingClient cli = ClientFactory.getBoardingClient(config, creds);
-		return cli.getBoardingStatus(agentID);
+		log.info("BoardingClient object intialized successfully.");
+		OnboardingStatus status = cli.getBoardingStatus(agentID);
+		log.info("getting OnboardingStatus status successfully." + status);
+		return status;
 
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/boardingconfig")
 	public BoardingConfiguration boardingconfig(@RequestHeader(required = false, value = "Authorization") String token,
 			@RequestParam("id") String agentID, HttpServletRequest request) throws MindsphereException {
-
+		log.info("/agents/boardingconfig invoked with id " + agentID);
 		BoardingClient cli = ClientFactory.getBoardingClient(config, creds);
-		return cli.getBoardingConfiguration(agentID);
+		log.info("BoardingClient object intialized successfully.");
+		BoardingConfiguration boardingConfiguration = cli.getBoardingConfiguration(agentID);
+		log.info("getting boardingConfiguration successfully." + boardingConfiguration);
+		return boardingConfiguration;
 
 	}
 
@@ -133,103 +146,108 @@ public class AgentManagementControllerTT {
 	public ClientIdentifier clientAssertionFromBoardingConfig(
 			@RequestHeader(required = false, value = "Authorization") String token, @RequestParam("id") String agentID,
 			@RequestParam("iat") String iat, HttpServletRequest request) throws MindsphereException {
-
+		log.info("/agents/onboardsharedsecret invoked with id " + agentID + " and iat: " + iat);
 		RegistrationClient registrationClient = ClientFactory.getRegistrationClient(config, creds);
-
-		return registrationClient.onBoardAgentWithSharedSecretProfile(iat);
+		log.info("RegistrationClient object intialized successfully.");
+		ClientIdentifier clientIdentifier = registrationClient.onBoardAgentWithSharedSecretProfile(iat);
+		log.info("getting clientAssertionFromBoardingConfig successfully." + clientIdentifier);
+		return clientIdentifier;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/getclientassertion")
-	public String getAccesstoken(
-			@RequestHeader(required = false, value = "Authorization") String token, @RequestParam("id") String agentID,
-			@RequestParam("tenant") String tenant,
+	public String getAccesstoken(@RequestHeader(required = false, value = "Authorization") String token,
+			@RequestParam("id") String agentID, @RequestParam("tenant") String tenant,
 			@RequestParam("clientSecret") String clientSecret, HttpServletRequest request) throws MindsphereException {
+		log.info("/agents/getclientassertion invoked with id " + agentID + " and tenant: " + tenant);
 		String on = null;
 		AgentMangamentHelper.selectToken(agentManagementService, token, request.getRequestURL().toString());
 		try {
 			on = agentManagementService.getClientAssertionSharedSecret(agentID, clientSecret, tenant);
+			log.info("getting Accesstoken successfully.");
 		} catch (Exception e) {
-			LOGGER.error(e.getClass().toString(), e.getStackTrace(), e);
+			log.error(e.getClass().toString(), e.getStackTrace(), e);
 		}
-		return on;		
+		return on;
 	}
-	
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/getaccesstoken")
-	public AccessToken getAccesstoken( @RequestParam("clientassertion") String clientassertion,
+	public AccessToken getAccesstoken(@RequestParam("clientassertion") String clientassertion,
 			HttpServletRequest request) throws MindsphereException {
+		log.info("/agents/getaccesstoken invoked with clientassertion " + clientassertion);
 		AccessToken on = null;
 		AgentMangamentHelper.selectToken(agentManagementService, null, request.getRequestURL().toString());
 		try {
 			on = agentManagementService.getAccessTokenFromClientAssertion(clientassertion);
+			log.info("getting Accesstoken successfully.");
 		} catch (Exception e) {
 			LOGGER.error(e.getClass().toString(), e.getStackTrace(), e);
 		}
-		return on;		
-		
+		return on;
+
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/offboard")
 	public OnboardingStatus offboard(@RequestHeader(required = false, value = "Authorization") String token,
 			@RequestParam("id") String agentID, HttpServletRequest request) throws MindsphereException {
-
+		log.info("/agents/offboard invoked with id " + agentID);
 		BoardingClient agentsClient = ClientFactory.getBoardingClient(config, creds);
 
 		OnboardingStatus agentOutput = agentsClient.offBoard(agentID);
+		log.info("getting Accesstoken successfully. " + agentOutput);
 		return agentOutput;
 	}
-	
 
-
-
-@RequestMapping(method = RequestMethod.GET, value = "/getAccessTokenDefaultSetting/{assetId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/getAccessTokenDefaultSetting/{assetId}")
 	public CreatedObjects getAccesstokenDefaultSetting(
-			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request, @PathVariable("assetId") String assetId)
-			throws MindsphereException {
+			@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request,
+			@PathVariable("assetId") String assetId) throws MindsphereException {
+		log.info("/agents/getAccessTokenDefaultSetting invoked with assetId " + assetId);
 		CreatedObjects on = null;
 		AgentMangamentHelper.selectToken(agentManagementService, token, request.getRequestURL().toString());
 		try {
 			on = agentManagementService.getAccesstokenDefaultSetting(assetId);
+			log.info("getting AccessTokenDefaultSetting successfully");
 		} catch (Exception e) {
-			LOGGER.error(e.getClass().toString(), e.getStackTrace(), e);
+			log.error(e.getClass().toString(), e.getStackTrace(), e);
 		}
 		return on;
 	}
 
+	private AssetsClient getAssetClient() {
+		// RestClientConfig config = RestClientConfig.builder().build();
+		// MindsphereCredentials creds = MindsphereCredentials.builder().build();
+		AssetsClient assetClient = AssetsClient.builder().restClientConfig(config).mindsphereCredentials(creds).build();
+		return assetClient;
+	}
 
-private  AssetsClient getAssetClient() {
-    //RestClientConfig config = RestClientConfig.builder().build();
-    //MindsphereCredentials creds = MindsphereCredentials.builder().build();
-    AssetsClient assetClient = AssetsClient.builder().restClientConfig(config).mindsphereCredentials(creds).build();
-    return assetClient;
-}
+	@RequestMapping(method = RequestMethod.GET, value = "/createassetforagent/{tenant}")
+	public AssetResourceWithHierarchyPath createAsset(@PathVariable("tenant") String tenant,
+			@RequestParam(required = false, value = "assetType") String assetType) throws MindsphereException {
+		try {
+			log.info("/agents/createassetforagent/"+tenant+" invoked with assetType " + assetType);
+			AssetsClient assetsClient = getAssetClient();
+			Asset assetDto = new Asset();
 
-    @RequestMapping(method = RequestMethod.GET, value = "/createassetforagent/{tenant}")
-    public AssetResourceWithHierarchyPath createAsset(@PathVariable("tenant") String tenant,
-            @RequestParam(required = false, value = "assetType") String assetType) throws MindsphereException {
-        try {
-            AssetsClient assetsClient = getAssetClient();
-            Asset assetDto = new Asset();
+			assetDto.setName(tenant + "_" + new Random().nextInt());
 
-            assetDto.setName(tenant + "_" + new Random().nextInt());
+			assetDto.setParentId(assetsClient.getRootAsset("0").getAssetId());
 
-            assetDto.setParentId(assetsClient.getRootAsset("0").getAssetId());
+			if (assetType != null) {
+				assetDto.setTypeId(assetType);
+			} else {
+				assetDto.setTypeId("core.mclib");
+			}
 
-            if (assetType != null) {
-                assetDto.setTypeId(assetType);
-            } else {
-                assetDto.setTypeId("core.mclib");
-            }
+			AssetResourceWithHierarchyPath asset = assetsClient.addAsset(assetDto);
+			log.info("Asset created Successfully "+asset);
+			return asset;
+		} catch (MindsphereException e) {
+			AssetResourceWithHierarchyPath err = new AssetResourceWithHierarchyPath();
+			err.setDescription(e.getErrorMessage());
+			log.info("Getting error while creating asset "+e.getErrorMessage());
+			return err;
+		}
 
-            AssetResourceWithHierarchyPath asset = assetsClient.addAsset(assetDto);
-            return asset;
-        } catch (MindsphereException e) {
-            AssetResourceWithHierarchyPath err = new AssetResourceWithHierarchyPath();
-            err.setDescription(e.getErrorMessage());
-            return err;
-        }
-
-    }
-
+	}
 
 }

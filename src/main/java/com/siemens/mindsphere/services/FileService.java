@@ -28,6 +28,7 @@ public class FileService extends MindsphereService {
 
     public String createFile(String entityId) throws IOException, MindsphereException {
         FileServiceClient fileserviceClient = fileServiceHelper.getFileserviceClient(getToken(), getHostName());
+        LOGGER.info("fileserviceClient initialized successfully");
         File currFile = new File(getClass().getClassLoader().getResource("testdata2.json").getFile());
         byte[] bytesArray = Files.readAllBytes(Paths.get(currFile.getPath()));
         String filePath = dynamicDirectoryPath + Math.random();
@@ -41,33 +42,39 @@ public class FileService extends MindsphereService {
         // getFile API call
         readFile = fileserviceClient.getFile(fileServiceHelper.getFileObjectModel(entityId, filePath));
         String response = new String(readFile);
+        LOGGER.info("get Response successfully for getFile" + response);
         return response;
     }
 
     public String deleteFile(String entityId, String filepath) throws MindsphereException {
         FileServiceClient fileserviceClient = fileServiceHelper.getFileserviceClient(getToken(), getHostName());
         String status;
-
+        LOGGER.info("fileserviceClient initialized successfully");
         // deleteFile API call
         fileserviceClient.deleteFile(fileServiceHelper.deleteFile(entityId, filepath));
         fileserviceClient.deleteFile(entityId, filepath);
         status = "Deleted file successfully";
-
+        LOGGER.info("status :"+status);
         return status;
     }
 
     public byte[] getFile(String entityId, String filePath) throws MindsphereException {
         FileServiceClient fileserviceClient = fileServiceHelper.getFileserviceClient(getToken(), getHostName());
+        LOGGER.info("fileserviceClient initialized successfully");
         byte[] getFileResponse = fileserviceClient.getFile(fileServiceHelper.getFileObjectModel(entityId, filePath));
+        String response = new String(getFileResponse);
+        LOGGER.info("get Response successfully for getFile" + response);
         return getFileResponse;
     }
 
     public List<FileResponse> searchFile(String entityId) throws MindsphereException {
         FileServiceClient fileserviceClient = fileServiceHelper.getFileserviceClient(getToken(), getHostName());
+        LOGGER.info("fileserviceClient initialized successfully");
         SearchFilesRequest searchFilesRequest = new SearchFilesRequest();
         searchFilesRequest.setEntityId(entityId);
         List<FileResponse> searchFileResponse = fileserviceClient
                 .searchFiles(fileServiceHelper.searchFileObjectModel(entityId));
+        LOGGER.info("get Response successfully for searchFile" + searchFileResponse);
         return searchFileResponse;
     }
 
@@ -96,22 +103,28 @@ public class FileService extends MindsphereService {
             if ("start".equals(upload)) {
                 fileserviceClient.initiateMultiPartUpload(request);
                 status = "Intitated file upload for the path : " + filepath;
+                LOGGER.info("status :"+status);
             } else if (("complete").equals(upload)) {
                 fileserviceClient.completeMultiPartUpload(request);
                 status = "Successfully uploaded file for the path : " + filePath;
+                LOGGER.info("status :"+status);
             } else {
                 fileserviceClient.createMultiPartFile(request);
                 status = "Uploaded file for the part : " + partNum + " in the path : " + filepath;
+                LOGGER.info("status :"+status);
             }
         } catch (OutOfMemoryError ex) {
             status = ex.getMessage();
+            LOGGER.info("status :"+status);
         } catch (MindsphereException ex) {
             status = ex.getErrorMessage();
+            LOGGER.info("status :"+status);
         } catch (Exception e) {
             status = e.toString();
-            System.out.println("Error class::" + e.getClass());
-            System.out.println("Error message::" + e.getMessage());
-            System.out.println("Error stack trace ::" + e.getStackTrace());
+            LOGGER.error("successfully uploaded file + Filepath:" + filePath);
+            LOGGER.error("Error class::" + e.getClass());
+            LOGGER.error("Error message::" + e.getMessage());
+            LOGGER.error("Error stack trace ::" + e.getStackTrace());
         }
         return status;
     }

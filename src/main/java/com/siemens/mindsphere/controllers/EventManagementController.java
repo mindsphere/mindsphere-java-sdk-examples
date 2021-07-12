@@ -15,9 +15,12 @@ import com.siemens.mindsphere.helpers.EventManagementHelper;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.EventManagementService;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @RestController
 @RequestMapping(value = "/eventMgmt")
+@Slf4j
 public class EventManagementController {
 	
 	/**
@@ -48,6 +51,7 @@ public class EventManagementController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/createtEventType")
     public Object createtEventType(@RequestHeader(required = false, value = "Authorization") String token, HttpServletRequest request) throws MindsphereException, IOException {
+		log.info("/eventMgmt/createtEventType invoked.");
 	    EventManagementHelper.selectToken(eventManagementService, token, request.getRequestURL().toString());
 	    return eventManagementService.createtEventType(token);
 	    
@@ -78,6 +82,7 @@ public class EventManagementController {
     @RequestMapping(method = RequestMethod.GET, value = "/createCustomEvent/{typeId}/{entityId}")
     public Object createCustomEvent(@PathVariable("typeId") String eventTypeId,@PathVariable("entityId") String entityId,
             @RequestHeader(required = false, value = "Authorization") String token,  HttpServletRequest request) throws MindsphereException, IOException {
+    	log.info("/eventMgmt/createCustomEvent/"+eventTypeId+"/"+entityId+" invoked.");
         EventManagementHelper.selectToken(eventManagementService, token, request.getRequestURL().toString());
         return eventManagementService.createCustomEvent(eventTypeId, entityId, token);
     }

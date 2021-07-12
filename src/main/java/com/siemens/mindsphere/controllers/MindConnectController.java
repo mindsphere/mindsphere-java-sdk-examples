@@ -15,8 +15,11 @@ import com.siemens.mindsphere.helpers.MindConnectHelper;
 import com.siemens.mindsphere.sdk.core.exception.MindsphereException;
 import com.siemens.mindsphere.services.MindConnectService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping(value = "/mindconnect")
+@Slf4j
 public class MindConnectController {
 	
 	/**
@@ -58,7 +61,7 @@ public class MindConnectController {
 	@RequestMapping(method = RequestMethod.GET, value = "/diagnosticActivationsGet")
 	public String diagnosticActivationsGetTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		log.info("/mindconnect/diagnosticActivationsGet invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.diagnosticActivationsGet();
 	}
@@ -86,6 +89,7 @@ public class MindConnectController {
 	public String diagnosticActivationsPostTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/diagnosticActivationsPost invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.diagnosticActivationsPostTest();
 	}
@@ -113,6 +117,7 @@ public class MindConnectController {
 	public String diagnosticActivationsIdDeleteTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/diagnosticActivationsIdDelete/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.diagnosticActivationsDeleteTest(id);
 	}
@@ -140,6 +145,7 @@ public class MindConnectController {
 	public String diagnosticActivationsIdGetTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/diagnosticActivationsIdGet/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.diagnosticActivationsIdGetTest(id);
 	}
@@ -168,6 +174,7 @@ public class MindConnectController {
 	public String diagnosticActivationsIdMessagesGetTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/diagnosticActivationsIdMessagesGet/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.diagnosticActivationsIdMessagesGetTest(id);
 	}
@@ -195,6 +202,7 @@ public class MindConnectController {
 	public String diagnosticActivationsIdPutTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/diagnosticActivationsIdPut/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.diagnosticActivationsIdPutTest(id);
 	}
@@ -222,6 +230,7 @@ public class MindConnectController {
 	@RequestMapping(method = RequestMethod.GET, value = "/dataPointMappingsGet")
 	public String dataPointMappingsGetTest(@RequestHeader(required = false, value = "Authorization") String token,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/dataPointMappingsGet invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.dataPointMappingsGetTest();
 	}
@@ -249,6 +258,7 @@ public class MindConnectController {
 	public String dataPointMappingsIdGetTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/dataPointMappingsIdGet/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.dataPointMappingsIdGetTest(id);
 	}
@@ -273,7 +283,9 @@ public class MindConnectController {
 	@RequestMapping(method = RequestMethod.GET, value = "/dataPointMappingsPost")
 	public String dataPointMappingsPostTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
-
+		
+		
+		log.info("/mindconnect/dataPointMappingsPost invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.dataPointMappingsPostTest();
 	}
@@ -300,6 +312,7 @@ public class MindConnectController {
 	public String dataPointMappingsIdDeleteTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/dataPointMappingsIdDelete/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.dataPointMappingsIdDeleteTest(id);
 	}
@@ -326,6 +339,7 @@ public class MindConnectController {
 	public String recoverableRecordsGetTest(@RequestHeader(required = false, value = "Authorization") String token,
 			HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/recoverableRecordsGet invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.recoverableRecordsGetTest();
 	}
@@ -353,6 +367,7 @@ public class MindConnectController {
 	public String recoverableRecordsIdReplayPostTet(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/recoverableRecordsIdReplayPost/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.recoverableRecordsIdReplayPost(id);
 	}
@@ -379,6 +394,7 @@ public class MindConnectController {
 	public String recoverableRecordsIdDownloadLinkGetTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/recoverableRecordsIdDownloadLinkGet/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.recoverableRecordsIdDownloadLinkGetTest(id);
 	}
@@ -405,6 +421,7 @@ public class MindConnectController {
 	public String recoverableRecordsIdDeleteTest(@RequestHeader(required = false, value = "Authorization") String token,
 			@PathVariable(required = true, value = "id") String id,HttpServletRequest request) throws MindsphereException {
 
+		log.info("/mindconnect/recoverableRecordsIdDelete/"+id+" invoked.");
 		MindConnectHelper.selectToken(mindConnectService, token, request.getRequestURL().toString());
 		return mindConnectService.recoverableRecordsIdDelete(id);
 	}
