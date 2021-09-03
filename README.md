@@ -362,15 +362,14 @@ In order to achieve this, there are few steps you will need to follow.
     -   1. Deploy the demo application on cloud foundry. Refer <section>.
     -   2. Create application in Developer Cockpit by name - `demoapiapp`. Provide application type as `API` and provide URL for application you get in i). Refer <section>
     -   3. Provide access to messagebroker (part of MindSphere which is actually going to call your endpoint).
-        <photo>
-            - 3.1 Navigate to `Authorization Management` tab.
-            - 3.2 Search your application by its internal name. `
-            - 3.3 Navigate to `App Roles` tab on the left vertical bar.
-            - 3.4 Click on `Message Broker` tab.
-            - 3.5 Click on `Grant access` button. A dialogue box should appear.
-            - 3.6 Check the boxes for application scopes which you wish to provide to message broker.
-            - 3.7 Click on `Save` button.
-        <p>
+        - 3.1 Navigate to `Authorization Management` tab.
+        - 3.2 Search your application by its internal name. `
+        - 3.3 Navigate to `App Roles` tab on the left vertical bar.
+        - 3.4 Click on `Message Broker` tab.
+        - 3.5 Click on `Grant access` button. A dialogue box should appear.
+        - 3.6 Check the boxes for application scopes which you wish to provide to message broker.
+        - 3.7 Click on `Save` button.
+    <p>
     <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/swaggerui-changes/images/MessageBrokerScopes.PNG" width="400">
     </p>
     
@@ -399,7 +398,7 @@ In order to achieve this, there are few steps you will need to follow.
         3) `GET /readNotification` : Read contents of messages received from messagebroker and stored in csv file.
         4) `DELETE /deleteContent` : Delete contents of messages received from messagebroker and stored in csv file.
 
-    - For subscribing to message broker use first endpoint.
+   - For subscribing to message broker use first endpoint.
 
    
 #### 4. Process the data.
