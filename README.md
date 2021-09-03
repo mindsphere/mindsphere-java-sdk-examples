@@ -388,15 +388,15 @@ In order to achieve this, there are few steps you will need to follow.
    
    - First 4 endpoints are concerned with core to third party support. Other remaining endpoints are exactly same as  last delivery and are not changed.
     Those 4 endpoints are described below:
-        1) `PUT /subscribe/{bakcendappName}/versions/{version}/topics/{topicName}` : Allows to subscribe to message broker topic.
+        1) `PUT` `/subscribe/{bakcendappName}/versions/{version}/topics/{topicName}` : Allows to subscribe to message broker topic.
             - 1.1 backendappName : Internal name of API type application you provided.
             - 1.2 version : version of API type application you provided.
             - 1.3 topicName: Name of the topic for which you would like to subscribe. For e.g. to subscribe for
               timeseries data ingest, topic name could be `mdsp.core.timeseries.v1.pubsub.data.ingest`.
             - 1.4 For subscribing you need to provide URL for API type application in the request body. These url should be in the form of `https://gateway.<mindsphere-zone>.mindsphere.io/api/<internal-name-of-api-app>-<tenant- name>/<version-of-application>/`.
-        2) `DELETE /unsubscribe/{bakcendappName}/versions/{version}/topics/{topicName}` : Allows to unsubscribe to message broker topic.
-        3) `GET /readNotification` : Read contents of messages received from messagebroker and stored in csv file.
-        4) `DELETE /deleteContent` : Delete contents of messages received from messagebroker and stored in csv file.
+        2) `DELETE` `/unsubscribe/{bakcendappName}/versions/{version}/topics/{topicName}` : Allows to unsubscribe to message broker topic.
+        3) `GET` `/readNotification` : Read contents of messages received from messagebroker and stored in csv file.
+        4) `DELETE` `/deleteContent` : Delete contents of messages received from messagebroker and stored in csv file.
 
    - For subscribing to message broker use first endpoint.
 
