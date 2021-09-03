@@ -337,9 +337,8 @@ Please refer [Handing over app to Operator Cockpit](https://developer.mindsphere
  Core to Third Party support allows MindSphere to call POST API in your API type application based on some event.
 Such events could be ingestion of data to timeseries, application provisioning to tenant etc.
 
- 
-###### Note
-> Note : This part is completely optional. If you do not wish MindSphere to call POST API in your API type application you can skip reading further part although you will be able to see few endpoints on swagger ui related to core to third party support, you can choose to ignore them.
+
+###### :warning: NOTE!!! This feature is only available for early access users.
 
  We have made this application(mindsphere-java-sdk-examples) compatible to core to third party support while maintaining support for existing capabilities.
 
@@ -365,12 +364,16 @@ In order to achieve this, there are few steps you will need to follow.
     -   3. Provide access to messagebroker (part of MindSphere which is actually going to call your endpoint).
         <photo>
             - 3.1 Navigate to `Authorization Management` tab.
-            - 3.2 Search your application by its internal name.
-            - 3.3 Navigate to `App Access` tab as shown below.
-            <photo>
-            - 3.4 Click on `Grant access` button.
-            - 3.5 Check boxes for application scopes which you wish to provide to message broker.
-            - 3.6 Click on `Save` button.
+            - 3.2 Search your application by its internal name. `
+            - 3.3 Navigate to `App Roles` tab on the left vertical bar.
+            - 3.4 Click on `Message Broker` tab.
+            - 3.5 Click on `Grant access` button. A dialogue box should appear.
+            - 3.6 Check the boxes for application scopes which you wish to provide to message broker.
+            - 3.7 Click on `Save` button.
+        <p>
+    <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/swaggerui-changes/images/MessageBrokerScopes.png" width="400">
+    </p>
+    
     -   4. Register the application.
        
     2B) Register the application as Standard(UI) application.
@@ -383,8 +386,6 @@ In order to achieve this, there are few steps you will need to follow.
         
 #### 3. Subscribe to topic/event based on which you want MindSphere to call your endpoint. 
    - Follow : Assign the App and Access via Launchpad section and access the application.
-     You should see something like this :
-      <photo>
    
    - First 4 endpoints are concerned with core to third party support. Other remaining endpoints are exactly same as  last delivery and are not changed.
     Those 4 endpoints are described below:
@@ -399,8 +400,6 @@ In order to achieve this, there are few steps you will need to follow.
         4) `DELETE /deleteContent` : Delete contents of messages received from messagebroker and stored in csv file.
 
     - For subscribing to message broker use first endpoint.
-    - On successful subscription you will get response like these :
-      <photo>
 
    
 #### 4. Process the data.
@@ -409,9 +408,6 @@ In order to achieve this, there are few steps you will need to follow.
 
 #### 5. View the data.
 - Use `GET /readNotification` to see data stored in csv file.
-- Sample entries in csv file are like : 
-<photo>
-
  
 
 > Note : You can use DELETE /  to wipe out csv file contents in case there are too many entries to go through. You can use /unsubscribe to unsubscribe from the topic. If you unsubscribe, MindSphere will not call endpoint POST /alertNotifications endpoint in your application. You can subscribe again whenever you want to start getting call from MindSphere to your API application.
