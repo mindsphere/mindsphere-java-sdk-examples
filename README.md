@@ -371,7 +371,7 @@ In order to achieve this, there are few steps you will need to follow.
             - 3.6 Check the boxes for application scopes which you wish to provide to message broker.
             - 3.7 Click on `Save` button.
         <p>
-    <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/swaggerui-changes/images/MessageBrokerScopes.png" width="400">
+    <img src="https://github.com/mindsphere/mindsphere-java-sdk-examples/blob/swaggerui-changes/images/MessageBrokerScopes.PNG" width="400">
     </p>
     
     -   4. Register the application.
