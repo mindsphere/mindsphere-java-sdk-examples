@@ -87,7 +87,140 @@ var spec ={
 		    }
 		  ],
 		  "paths": {
-		    
+		    "/subscribe/{bakcnedappName}/versions/{version}/topics/{topicName}": {
+		      "put": {
+		        "tags": [
+		          "Message-Broker"
+		        ],
+		        "summary": "subscribe to Message-Broker",
+		        "parameters": [
+		          {
+		            "in": "path",
+		            "name": "bakcnedappName",
+		            "schema": {
+		              "type": "string"
+		            },
+		            "required": true
+		          },
+		          {
+		            "in": "path",
+		            "name": "version",
+		            "schema": {
+		              "type": "string"
+		            },
+		            "required": true
+		          },
+		          {
+		            "in": "path",
+		            "name": "topicName",
+		            "schema": {
+		              "type": "string"
+		            },
+		            "required": true
+		          }
+		        ],
+		        "operationId": "subscribetoMsgBroker",
+		        "description": "Create subscription to MessageBroker.",
+		        "requestBody": {
+		          "required": true,
+		          "content": {
+		            "application/json": {
+		              "schema": {
+		                "$ref": "#/definitions/MsgBrokerSubscriptionRequest"
+		              }
+		            }
+		          }
+		        },
+		        "responses": {
+		          "200": {
+		            "description": "subscribed successfully.",
+		            "content": {
+		              "application/json": {
+		                "schema": {
+		                  "$ref": "#/definitions/MsgBrokerSubscriptionResponse"
+		                }
+		              }
+		            }
+		          }
+		        }
+		      }
+		    },
+		    "/unsubscribe/{bakcnedappName}/versions/{version}/topics/{topicName}": {
+		      "delete": {
+		        "tags": [
+		          "Message-Broker"
+		        ],
+		        "summary": "unsubscribe to Message-Broker",
+		        "parameters": [
+		          {
+		            "in": "path",
+		            "name": "bakcnedappName",
+		            "schema": {
+		              "type": "string"
+		            },
+		            "required": true
+		          },
+		          {
+		            "in": "path",
+		            "name": "version",
+		            "schema": {
+		              "type": "string"
+		            },
+		            "required": true
+		          },
+		          {
+		            "in": "path",
+		            "name": "topicName",
+		            "schema": {
+		              "type": "string"
+		            },
+		            "required": true
+		          }
+		        ],
+		        "operationId": "unsubscribetoMsgBroker",
+		        "description": "delete subscription to MessageBroker.",
+		        "responses": {
+		          "200": {
+		          }
+		        }
+		      }
+		    },
+		    "/readNotification": {
+		      "get": {
+		        "tags": [
+		          "Message-Broker"
+		        ],
+		        "summary": "subscribe to Message-Broker",
+		        "operationId": "readNotification",
+		        "description": "get notification of event triggered.",
+		        "responses": {
+		          "200": {
+		            "description": "read data successfully from file.",
+		            "content": {
+		              "application/json": {
+		                "schema": {
+		                  "type": "string"
+		                }
+		              }
+		            }
+		          }
+		        }
+		      }
+		    },
+		    "/deleteContent": {
+		      "delete": {
+		        "tags": [
+		          "Message-Broker"
+		        ],
+		        "summary": "delete content from file",
+		        "operationId": "deleteContent",
+		        "description": "delete content from file contain response of event triggered.",
+		        "responses": {
+		          "200": {
+		          }
+		        }
+		      }
+		    },
 		    "\/assets\/putaspect\/{id}\/{ifmatch}": {
 		      "put": {
 		        "tags": [
@@ -574,6 +707,38 @@ var spec ={
 		        }
 		      }
 		    },
+		    "\/eventAnalytics\/filterEvents": {
+		      "get": {
+		        "summary": "Get top events.",
+		        "operationId": "getfilteredEvents",
+		        "tags": [
+		          "event-analytics"
+		        ],
+		        "responses": {
+		          "200": {
+		            "description": "Get filtered events",
+		            "content": {
+		              "application\/json": {
+		                "schema": {
+		                  "$ref": "#\/definitions\/EventArrayOutput"
+		                }
+		              }
+		            }
+		          },
+		          "default": {
+		            "description": "unexpected error",
+		            "content": {
+		              "application\/json": {
+		                "schema": {
+		                  "$ref": "#\/definitions\/errors"
+		                }
+		              }
+		            }
+		          }
+		        }
+		      }
+		    },
+
 		    "\/eventAnalytics\/countEvents": {
 		      "get": {
 		        "summary": "Get count of events.",
@@ -636,7 +801,7 @@ var spec ={
 		        }
 		      }
 		    },
-		    "\/eventAnalytics\/matchEventPatterns": {
+		    "\/eventAnalytics\/matchEventPattern": {
 		      "get": {
 		        "summary": "Match event pattern.",
 		        "operationId": "matchPatternevents",
