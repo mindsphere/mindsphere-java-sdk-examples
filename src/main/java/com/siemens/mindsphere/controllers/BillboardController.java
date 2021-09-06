@@ -49,6 +49,16 @@ public class BillboardController {
     
     
 
+    @RequestMapping(method = RequestMethod.GET, value = "tenanttype/gettenant")
+    public String gettenant() {
+    	try{
+        return System.getenv("MDSP_USER_TENANT");
+        }catch(Exception e){
+            log.error("Error", e);
+        }
+        return "unknowntenant";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/token")
     public List<String> token(@RequestHeader(required = false, value = "Authorization") String userToken,
             HttpServletRequest request) throws MindsphereException {
